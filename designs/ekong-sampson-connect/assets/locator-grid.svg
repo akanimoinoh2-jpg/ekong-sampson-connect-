@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-labelledby="title desc">
+  <title id="title">Twelve community markers</title>
+  <desc id="desc">An abstract, non-geographic arrangement of twelve numbered locations.</desc>
+  <rect width="480" height="300" fill="#e9eadf"/>
+  <path d="M0 228c83-28 109-31 166-15s101-5 153-39 104-38 161-18v144H0Z" fill="#d9ddcb"/>
+  <path d="M24 84c70 18 107 8 156-21s91-25 127 7 88 39 149 18M23 187c58-22 105-16 147 2s79 17 128-7 92-27 159-6" fill="none" stroke="#b5bea7" stroke-width="2" stroke-dasharray="4 8"/>
+  <g fill="#1f4938" stroke="#f7f5ec" stroke-width="4">
+    <circle cx="61" cy="73" r="17"/><circle cx="164" cy="48" r="17"/><circle cx="266" cy="60" r="17"/><circle cx="380" cy="88" r="17"/>
+    <circle cx="105" cy="145" r="17"/><circle cx="214" cy="132" r="17"/><circle cx="324" cy="155" r="17"/><circle cx="423" cy="168" r="17"/>
+    <circle cx="56" cy="228" r="17"/><circle cx="159" cy="225" r="17"/><circle cx="273" cy="215" r="17"/><circle cx="376" cy="230" r="17"/>
+  </g>
+  <g fill="#fff" font-family="Arial,sans-serif" font-size="12" text-anchor="middle" dominant-baseline="central">
+    <text x="61" y="73">01</text><text x="164" y="48">02</text><text x="266" y="60">03</text><text x="380" y="88">04</text>
+    <text x="105" y="145">05</text><text x="214" y="132">06</text><text x="324" y="155">07</text><text x="423" y="168">08</text>
+    <text x="56" y="228">09</text><text x="159" y="225">10</text><text x="273" y="215">11</text><text x="376" y="230">12</text>
+  </g>
+</svg>

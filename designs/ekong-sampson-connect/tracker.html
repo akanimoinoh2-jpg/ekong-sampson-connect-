@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173b2d">
+  <meta name="description" content="EKONG SAMPSON CONNECT — a civic information prototype for Akwa Ibom South. Documenting Service. Connecting Communities. Tracking Progress.">
+  <title>Project Tracker — EKONG SAMPSON CONNECT</title>
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="utility"><div class="wrap"><span>PUBLIC SERVICE · <strong>AKWA IBOM SOUTH</strong></span><a href="contact.html">Constituency contact <span aria-hidden="true">↗</span></a></div></div>
+  <header class="masthead"><div class="wrap nav-row">
+    <a class="brand" href="home.html" aria-label="Ekong Sampson Connect home"><span class="brand-mark" aria-hidden="true">ES</span><span><span class="brand-name">EKONG SAMPSON CONNECT</span><span class="brand-note">People. Projects. Progress.</span></span></a>
+     <nav class="nav-links" id="primary-nav" aria-label="Main navigation"><a href="home.html">Home</a><a href="about.html">About</a><a href="manifesto.html">Manifesto</a><a href="lgas.html">Your LGA</a><a href="news.html">News</a><a href="media.html">Media</a><a href="events.html">Events</a></nav>
+    <div class="nav-actions"><button class="search-open" id="search-open" type="button" aria-expanded="false" aria-controls="site-search">⌕ <span>Search</span></button><a class="button small" href="community-issue.html">Share an issue <span aria-hidden="true">↗</span></a><button class="mobile-toggle" id="mobile-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button></div>
+  </div><div class="global-search" id="site-search"><div class="wrap"><input id="site-search-input" type="search" placeholder="Search projects, policies, speeches, communities…" aria-label="Search this website prototype"><button class="button small" id="search-submit" type="button">Search</button></div><p class="wrap search-feedback" id="search-feedback" aria-live="polite">Search the content on this page only. There is no connected archive.</p></div></header>
+   <main id="main">
+    <section class="section tracker" id="tracker">
+      <div class="wrap">
+        <div class="section-heading tracker-top">
+          <div><span class="section-kicker">03 / Project Tracker</span><h2>What is underway, and what is still only a proposal?</h2></div>
+          <p>Select an LGA to filter project details and highlight it on the live locator. Project examples are illustrative; the locator is schematic, not a geographic map.</p>
+        </div>
+        <div class="tracker-filters">
+            <div class="field-control">
+              <label for="project-lga">LGA</label>
+              <select id="project-lga">
+                <option value="all">All LGAs</option>
+                <option value="eket">Eket</option>
+                <option value="esit-eket">Esit Eket</option>
+                <option value="ibeno">Ibeno</option>
+                <option value="onna">Onna</option>
+                <option value="mkpat-enin">Mkpat-Enin</option>
+                <option value="ikot-abasi">Ikot Abasi</option>
+                <option value="eastern-obolo">Eastern Obolo</option>
+                <option value="oron">Oron</option>
+                <option value="mbo">Mbo</option>
+                <option value="okobo">Okobo</option>
+                <option value="udung-uko">Udung Uko</option>
+                <option value="urue-offong-oruko">Urue-Offong/Oruko</option>
+              </select>
+            </div>
+          <div class="field-control">
+            <label for="project-community">Community</label>
+            <input id="project-community" type="text" placeholder="Search community">
+          </div>
+          <div class="field-control">
+            <label for="project-sector">Sector</label>
+            <select id="project-sector">
+              <option value="all">All sectors</option>
+              <option value="education">Education</option>
+              <option value="health">Health</option>
+              <option value="infrastructure">Infrastructure</option>
+              <option value="water">Water</option>
+            </select>
+          </div>
+          <div class="field-control">
+            <label for="project-year">Year</label>
+            <select id="project-year">
+              <option value="all">All years</option>
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+              <option value="2028">2028</option>
+              <option value="2029">2029</option>
+              <option value="2030">2030</option>
+              <option value="2031">2031</option>
+              <option value="2032">2032</option>
+              <option value="2033">2033</option>
+            </select>
+          </div>
+          <div class="field-control">
+            <label for="project-status">Status</label>
+            <select id="project-status">
+              <option value="all">All statuses</option>
+              <option value="proposal">Proposal</option>
+              <option value="ongoing">Ongoing</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+        </div>
+        <div class="view-toggle">
+          <button type="button" data-view="list" aria-pressed="true">List only</button>
+          <button type="button" data-view="map" aria-pressed="false">List + live locator</button>
+        </div>
+        <p class="filter-feedback" id="filter-feedback" aria-live="polite">Select an LGA to see matching project details and its location on the locator.</p>
+        <div class="project-list" id="project-list">
+          <article class="project" data-lga="eket" data-community="eket" data-sector="education" data-year="2024" data-status="proposal">
+            <div class="project-meta">Eket · Education · 2024 · Proposal</div>
+            <h3>Community Learning Hub Upgrade</h3>
+            <p>Illustrative concept for a local educational support centre with digital access and after-school learning facilities.</p>
+            <div class="project-evidence"><span>Evidence: not verified</span><span>Funding: illustrative</span><span>Status: proposal</span></div>
+          </article>
+          <article class="project" data-lga="esit-eket" data-community="oniong" data-sector="health" data-year="2023" data-status="ongoing">
+            <div class="project-meta">Esit Eket · Health · 2023 · Ongoing</div>
+            <h3>Primary Health Outreach Rollout</h3>
+            <p>Illustrative plan to expand outreach services and support local screening programmes.</p>
+            <div class="project-evidence"><span>Evidence: not verified</span><span>Funding: illustrative</span><span>Status: ongoing</span></div>
+          </article>
+          <article class="project" data-lga="mkpat-enin" data-community="ikot-essen-akpan-ntuen" data-sector="infrastructure" data-year="2024" data-status="ongoing">
+            <div class="project-meta">Mkpat Enin · Infrastructure · 2024 · Ongoing</div>
+            <h3>Ibekwe–Ikot Unya–Ekpuk Road Project</h3>
+            <p>Ongoing road construction connecting Ibekwe, Ikot Unya and Ekpuk communities in Ikpa Ikono Clan, Mkpat Enin LGA. Commended by residents of Ikot Essen Akpan Ntuen for improving access and connectivity in the area.</p>
+            <div class="project-evidence"><span>Evidence: community report</span><span>Funding: senatorial intervention</span><span>Status: ongoing</span></div>
+          </article>
+          <article class="project" data-lga="mkpat-enin" data-community="ikot-essen-akpan-ntuen" data-sector="water" data-year="2024" data-status="completed">
+            <div class="project-meta">Mkpat Enin · Water · 2024 · Completed</div>
+            <h3>Solar-Powered Water Project — Ikot Essen Akpan Ntuen</h3>
+            <p>Newly commissioned solar-powered water scheme serving the Ikot Essen Akpan Ntuen community in Ikpa Ikono Clan, Mkpat Enin LGA. Features an elevated water tower with multiple taps for community access.</p>
+            <div class="project-evidence"><span>Evidence: community report, photo verified</span><span>Funding: senatorial intervention</span><span>Status: completed</span></div>
+          </article>
+        </div>
+        <div class="project-sync-row">
+          <p class="notice" id="project-sync-feedback" aria-live="polite">Loading projects published by the project team…</p>
+          <button class="button outline small" id="refresh-project-updates" type="button">Refresh project updates</button>
+        </div>
+        <div class="tracker-map hidden" id="tracker-map">
+          <h3 id="tracker-map-title">Akwa Ibom South LGA locator</h3>
+          <p id="tracker-map-selection" aria-live="polite">Select an LGA to highlight it. No project sites are plotted.</p>
+          <svg viewBox="0 0 480 300" role="group" aria-labelledby="tracker-map-svg-title tracker-map-svg-desc">
+            <title id="tracker-map-svg-title">Schematic selector for the 12 local government areas</title>
+            <desc id="tracker-map-svg-desc">A non-geographic arrangement of selectable local government labels; it does not show boundaries or project coordinates.</desc>
+            <rect width="480" height="300" fill="#e9eadf"/>
+            <path d="M0 228c83-28 109-31 166-15s101-5 153-39 104-38 161-18v144H0Z" fill="#d9ddcb"/>
+            <path d="M24 84c70 18 107 8 156-21s91-25 127 7 88 39 149 18M23 187c58-22 105-16 147 2s79 17 128-7 92-27 159-6" fill="none" stroke="#b5bea7" stroke-width="2" stroke-dasharray="4 8"/>
+            <g class="locator-marker" data-lga="eket"><circle cx="61" cy="73" r="17"/><text x="61" y="73">01</text></g>
+            <g class="locator-marker" data-lga="esit-eket"><circle cx="164" cy="48" r="17"/><text x="164" y="48">02</text></g>
+            <g class="locator-marker" data-lga="ibeno"><circle cx="266" cy="60" r="17"/><text x="266" y="60">03</text></g>
+            <g class="locator-marker" data-lga="onna"><circle cx="380" cy="88" r="17"/><text x="380" y="88">04</text></g>
+            <g class="locator-marker" data-lga="mkpat-enin"><circle cx="105" cy="145" r="17"/><text x="105" y="145">05</text></g>
+            <g class="locator-marker" data-lga="ikot-abasi"><circle cx="214" cy="132" r="17"/><text x="214" y="132">06</text></g>
+            <g class="locator-marker" data-lga="eastern-obolo"><circle cx="324" cy="155" r="17"/><text x="324" y="155">07</text></g>
+            <g class="locator-marker" data-lga="oron"><circle cx="423" cy="168" r="17"/><text x="423" y="168">08</text></g>
+            <g class="locator-marker" data-lga="mbo"><circle cx="56" cy="228" r="17"/><text x="56" y="228">09</text></g>
+            <g class="locator-marker" data-lga="okobo"><circle cx="159" cy="225" r="17"/><text x="159" y="225">10</text></g>
+            <g class="locator-marker" data-lga="udung-uko"><circle cx="273" cy="215" r="17"/><text x="273" y="215">11</text></g>
+            <g class="locator-marker" data-lga="urue-offong-oruko"><circle cx="376" cy="230" r="17"/><text x="376" y="230">12</text></g>
+          </svg>
+          <p>Schematic locator only—not a geographic map. Marker positions are illustrative, not actual boundaries or project locations.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><div class="wrap"><div><span class="brand-name">EKONG SAMPSON CONNECT</span><p>Documenting Service. Connecting Communities. Tracking Progress.</p></div><div class="footer-meta"><a href="admin.html">Project team sign-in</a><br>Public service prototype</div></div></footer>
+  <p>BUILD UNDER THE SUPERVISION OF IDORENYIN INOH</p>
+  <script src="site.js"></script>
+</body>
+</html>

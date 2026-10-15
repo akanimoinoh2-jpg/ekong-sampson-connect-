@@ -1,0 +1,117 @@
+.admin-main { padding-block: 3.5rem 5rem; }
+.admin-heading { max-width: 780px; margin-bottom: 2rem; }
+.admin-heading h1 { font-size: clamp(2.6rem, 5vw, 4rem); margin-block: .8rem; }
+.admin-heading p, .admin-workspace-heading p { color: var(--muted); }
+.admin-panel { padding: 1.5rem; background: var(--white); border: 1px solid var(--line); }
+.admin-panel h2, .admin-panel h3 { font-family: var(--serif); color: var(--forest); }
+.admin-panel form, #login-form { display: grid; gap: .55rem; }
+.admin-panel label, #login-form label { margin-top: .45rem; font-size: .8rem; font-weight: 700; }
+.admin-panel label span { color: var(--muted); font-weight: 400; }
+.admin-panel input, .admin-panel select, .admin-panel textarea, #login-form input {
+  width: 100%; min-height: 44px; padding: .65rem .75rem; border: 1px solid var(--line); background: #fff; color: var(--ink);
+}
+.password-control { display: flex; align-items: stretch; }
+.password-control input { flex: 1; min-width: 0; }
+.password-control .password-toggle {
+  min-width: 76px; margin: 0; padding: .55rem .8rem; border: 1px solid var(--line);
+  border-left: 0; background: var(--paper-2); color: var(--forest); font-size: .8rem;
+  font-weight: 700; cursor: pointer;
+}
+.password-control .password-toggle:hover { background: var(--sage); }
+.admin-panel textarea { resize: vertical; }
+.admin-panel button, #login-form button { justify-self: start; margin-top: .8rem; }
+.admin-workspace-heading { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+.admin-workspace-heading h2 { margin-bottom: .25rem; }
+.admin-workspace-heading p { margin-bottom: 0; }
+.admin-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: 1rem; }
+.admin-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+.admin-form-row > div { min-width: 0; }
+.admin-form-row input, .admin-form-row select { margin-top: .55rem; }
+.admin-project-list { display: grid; gap: .75rem; }
+.admin-issue-list { display: grid; gap: .75rem; }
+.admin-project { padding: 1rem; border: 1px solid var(--line); background: #fff; }
+.admin-project h4 { margin: 0 0 .35rem; color: var(--forest); }
+.admin-project p { margin: .25rem 0; color: var(--muted); font-size: .82rem; }
+.admin-project .button { margin-top: .55rem; }
+.admin-issue { padding: 1rem; border: 1px solid var(--line); background: #fff; }
+.admin-issue h4 { margin: 0 0 .35rem; color: var(--forest); }
+.admin-issue p { margin: .25rem 0; color: var(--muted); font-size: .82rem; }
+.admin-message { min-height: 1.5rem; color: var(--forest); font-weight: 700; }
+.admin-message[data-error="true"] { color: #922d23; }
+@media (max-width: 760px) {
+  .admin-grid { grid-template-columns: 1fr; }
+  .admin-main { padding-block: 2rem 3rem; }
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+.modal.hidden {
+  display: none;
+}
+.modal[aria-hidden="false"] {
+  display: block;
+}
+.modal-background {
+  background-color: rgba(0,0,0,0.5);
+}
+.modal-card {
+  background-color: var(--white);
+  border-radius: 4px;
+  box-shadow: 0 2px 3px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 600px;
+  margin: 100px auto;
+}
+.modal-card-head,
+.modal-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: var(--paper-2);
+  border-radius: 4px 4px 0 0;
+}
+.modal-card-head {
+  border-bottom: 1px solid var(--line);
+}
+.modal-card-title {
+  color: var(--forest);
+  font-size: 1.25rem;
+  flex-grow: 1;
+  font-weight: 700;
+}
+.modal-card-body {
+  background-color: var(--white);
+  padding: 1.5rem;
+}
+.modal-card-foot {
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 4px 4px;
+}
+.modal-card-foot .button {
+  flex: 1;
+  margin: 0 0.5rem;
+}
+.modal-card-foot .button:first-child {
+  margin-left: 0;
+}
+.modal-card-foot .button:last-child {
+  margin-right: 0;
+}
+.delete {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 25px;
+  height: 25px;
+}

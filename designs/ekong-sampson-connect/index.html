@@ -1,0 +1,522 @@
+﻿﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173b2d">
+  <meta name="description" content="EKONG SAMPSON CONNECT — a civic information prototype for Akwa Ibom South. Documenting Service. Connecting Communities. Tracking Progress.">
+  <title>EKONG SAMPSON CONNECT — Documenting Service. Connecting Communities. Tracking Progress.</title>
+  <style>
+    :root {
+      --forest: #173b2d; --forest-2: #214d3c; --ink: #202722; --paper: #f5f2e9;
+      --paper-2: #ebe8dd; --sage: #dce2d5; --muted: #657168; --brass: #a97932;
+      --line: #d6d4c8; --white: #fffdf7; --serif: Georgia, "Times New Roman", serif;
+      --sans: "Aptos", "Segoe UI", Arial, sans-serif; --content: 1200px;
+    }
+    * { box-sizing: border-box; }
+    img { max-width: 100%; height: auto; }
+    html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font: 16px/1.55 var(--sans); }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+    button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid #bd8a3f; outline-offset: 3px; }
+    .skip-link { position: absolute; top: -100px; left: 1rem; z-index: 99; padding: .7rem 1rem; background: white; }
+    .skip-link:focus { top: 1rem; }
+    .wrap { width: min(var(--content), calc(100% - 48px)); margin-inline: auto; }
+    .utility { background: var(--forest); color: #e8ebdf; font-size: .73rem; letter-spacing: .06em; }
+    .utility .wrap { min-height: 36px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .utility strong { color: #d6b978; font-weight: 600; }
+    .utility a { text-decoration: none; }
+    .masthead { position: sticky; z-index: 20; top: 0; background: rgba(245,242,233,.97); border-bottom: 1px solid var(--line); }
+    .nav-row { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 1.4rem; }
+    .brand { text-decoration: none; display: flex; align-items: center; gap: .8rem; min-width: 230px; }
+    .brand-mark { width: 38px; height: 38px; display: grid; place-items: center; color: var(--paper); background: var(--forest); font: 700 .75rem var(--serif); letter-spacing: -.06em; border-radius: 50% 50% 4px 50%; }
+    .brand-name { display: block; font-size: .79rem; font-weight: 800; letter-spacing: .105em; line-height: 1.2; }
+    .brand-note { color: var(--muted); display: block; font-size: .61rem; letter-spacing: .07em; text-transform: uppercase; margin-top: .25rem; }
+    .nav-links { display: flex; gap: 1.55rem; align-items: center; }
+    .nav-links a { text-decoration: none; font-size: .79rem; color: #37443b; }
+    .nav-links a:hover { color: var(--brass); }
+    .nav-actions { display: flex; align-items: center; gap: .65rem; }
+    .search-open { appearance: none; border: 0; background: none; cursor: pointer; padding: .5rem; color: var(--forest); font-size: .8rem; }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; min-height: 46px; padding: .72rem 1.1rem; border: 1px solid var(--forest); background: var(--forest); color: #fffdf7; text-decoration: none; font-size: .78rem; font-weight: 700; letter-spacing: .04em; cursor: pointer; transition: background .2s, transform .2s; }
+    .button:hover { background: var(--forest-2); transform: translateY(-2px); }
+    .button.outline { color: var(--forest); background: transparent; }
+    .button.outline:hover { background: var(--sage); }
+    .button.small { min-height: 38px; padding: .5rem .8rem; font-size: .72rem; }
+    .mobile-toggle { display: none; border: 1px solid var(--line); background: transparent; padding: .65rem .75rem; color: var(--forest); cursor: pointer; font-size: .8rem; }
+    .hero {
+      position: relative; overflow: hidden; background-color: var(--forest);
+      background-image: linear-gradient(90deg, rgba(23,59,45,.55) 0%, rgba(23,59,45,.35) 52%, rgba(23,59,45,.2) 100%), url("assets/ekong.jpg");
+      background-position: center, center 35%; background-size: cover; background-repeat: no-repeat; color: var(--paper);
+    }
+    .hero:after { content:""; position:absolute; inset:0; pointer-events:none; opacity:.12; background-image:radial-gradient(#d3c99d .6px,transparent .6px); background-size:8px 8px; mask-image:linear-gradient(100deg,transparent 20%,#000); }
+    .hero-grid { min-height: 570px; display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 3.5rem; padding-block: 5.1rem 4.4rem; position: relative; z-index: 1; }
+    .eyebrow { display: inline-flex; align-items: center; gap: .65rem; text-transform: uppercase; letter-spacing: .17em; font-size: .67rem; font-weight: 700; }
+    .eyebrow:before { content:""; width: 26px; height: 1px; background: var(--brass); }
+    .hero .eyebrow { color: #dfc98c; }
+    h1,h2,h3,p { margin-top: 0; }
+    h1 { font: 500 clamp(3rem, 6.2vw, 5.75rem)/.98 var(--serif); letter-spacing: -.055em; margin: 1.25rem 0 1.25rem; max-width: 700px; }
+    h1 span { color: #d6b978; font-style: italic; }
+    .hero-lede { color: #dce3d9; max-width: 540px; font-size: 1.02rem; }
+    .hero-role { color: #b9c7bb; font-size: .79rem; letter-spacing: .045em; margin: 1.45rem 0 1.75rem; padding-left: 1rem; border-left: 2px solid var(--brass); }
+    .hero-actions { display: flex; gap: .7rem; flex-wrap: wrap; }
+    .hero .button { border-color: #d5b76b; background: #d5b76b; color: #1f3026; }
+    .hero .button:hover { background: #e3cb8b; }
+    .hero .button.outline { color: var(--paper); background: transparent; border-color: #81978a; }
+    .hero .button.outline:hover { background: #2a5140; }
+    .hero-visual { min-height: 388px; position: relative; display: flex; align-items: end; justify-content: end; }
+
+    .visual-note { position:absolute; left: 0; bottom: 20px; width: 57%; padding: 1.15rem; background: var(--paper); color: var(--ink); box-shadow: 10px 10px 0 rgba(14,32,22,.32); }
+    .visual-note .eyebrow { color: var(--brass); font-size: .58rem; }
+    .visual-note p { margin: .6rem 0 0; font: 1.15rem/1.23 var(--serif); }
+    .locator-label { position:absolute; top: 0; right: 0; padding: .55rem .75rem; background: #d5b76b; color: var(--forest); font-weight: 800; letter-spacing: .13em; font-size: .63rem; text-transform: uppercase; }
+    .locator-label span { font-weight: 400; letter-spacing: 0; text-transform: none; display:block; margin-top:.15rem; }
+    .section { padding-block: 5.1rem; }
+    .section-heading { display:flex; justify-content:space-between; align-items:end; gap: 2rem; margin-bottom: 2.3rem; }
+    .section-heading h2 { font: 500 clamp(2.2rem, 4vw, 3.4rem)/1.03 var(--serif); letter-spacing: -.045em; margin: .65rem 0 0; }
+    .section-heading p { color: var(--muted); max-width: 430px; margin: 0; font-size: .9rem; }
+    .section-kicker { color: var(--brass); font-size:.65rem; letter-spacing:.16em; text-transform:uppercase; font-weight:800; }
+    .accountability { background: var(--paper-2); border-bottom: 1px solid var(--line); }
+    .metrics { display:grid; grid-template-columns: repeat(5,1fr); }
+    .metric { min-height: 110px; padding: 1.35rem 1.25rem; border-right: 1px solid #cfccbf; display:flex; flex-direction:column; justify-content:center; }
+    .metric:first-child { border-left: 1px solid #cfccbf; }
+    .metric strong { font: 2rem/1 var(--serif); color:var(--forest); }
+    .metric span { color:var(--muted); font-size:.73rem; margin-top:.45rem; }
+    .agenda-strip { background: #fffdf7; border-bottom: 1px solid var(--line); padding: 1.15rem 0; }
+    .agenda-strip .wrap { display: flex; align-items: center; flex-wrap: wrap; gap: .55rem; }
+    .agenda-strip strong { color: var(--forest); font: 1rem var(--serif); margin-right: .45rem; }
+    .agenda-strip a { color: var(--muted); text-decoration: none; border-left: 1px solid var(--line); padding: .2rem .55rem; font-size: .74rem; }
+    .agenda-strip a:hover { color: var(--forest); text-decoration: underline; }
+    .manifesto { background: #eeece2; }
+    .manifesto-layout { align-items: start; }
+    .manifesto-intro { position: sticky; top: 110px; }
+    .manifesto-intro h2 { font: 500 clamp(2.4rem, 4.3vw, 3.7rem)/1.02 var(--serif); letter-spacing: -.045em; margin: .7rem 0 1rem; }
+    .manifesto-controls { display: grid; grid-template-columns: minmax(200px, 1fr) 1fr; gap: .75rem; margin: 1.4rem 0; }
+    .field-control { display: grid; gap: .3rem; }
+    .field-control label, .community-form label, .enquiry-form label { font-size: .74rem; font-weight: 700; color: #39483d; }
+    .field-control input, .field-control select, .community-form input, .community-form select, .community-form textarea, .enquiry-form input, .enquiry-form textarea {
+      width: 100%; min-height: 44px; border: 1px solid #bac2b6; background: #fffdf7; padding: .7rem .75rem; color: var(--ink); border-radius: 0;
+    }
+    .field-control input::placeholder, .community-form textarea::placeholder { color: #68756b; opacity: 1; }
+    .manifesto-themes { display: grid; gap: 1rem; }
+    .manifesto-theme { background: var(--white); border-top: 3px solid var(--forest); padding: 1.3rem 1.4rem 1.1rem; }
+    .manifesto-theme h3 { font: 1.65rem/1.1 var(--serif); margin: .3rem 0 .4rem; }
+    .manifesto-theme .theme-label { color: var(--brass); text-transform: uppercase; font-size: .61rem; font-weight: 800; letter-spacing: .14em; }
+    .theme-triad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.1rem; }
+    .theme-triad > div { border-left: 1px solid var(--line); padding-left: .8rem; }
+    .theme-triad b { display: block; color: var(--forest); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .35rem; }
+    .theme-triad p { color: var(--ink-soft); font-size: .8rem; margin: 0; }
+    .theme-actions { display: flex; gap: .6rem; align-items: center; justify-content: flex-end; margin-top: 1rem; }
+    .text-button { color: var(--forest); background: transparent; border: 0; padding: .4rem; cursor: pointer; font-size: .73rem; font-weight: 700; text-decoration: underline; text-underline-offset: .2em; }
+    .tracker { background: #f8f6ef; }
+    .tracker-top { gap: 1rem; flex-wrap: wrap; align-items: end; }
+    .tracker-filters { display: grid; grid-template-columns: repeat(5, minmax(125px, 1fr)); gap: .55rem; width: 100%; }
+    .tracker-filters .field-control { min-width: 0; }
+    .tracker-filters select, .tracker-filters input { max-width: 100%; }
+    .filter-feedback { color: var(--forest); font-size: .76rem; min-height: 1.4rem; }
+    .project { align-items: start; }
+    .project-meta { color: var(--muted); font-size: .73rem; }
+    .project h3 { margin: .45rem 0; }
+    .project-image { display: block; width: min(100%, 420px); max-height: 260px; object-fit: cover; margin: .7rem 0; }
+    .project-evidence { display: flex; flex-wrap: wrap; gap: .45rem 1rem; margin-top: .7rem; color: var(--muted); font-size: .69rem; }
+    .status { white-space: nowrap; }
+    .tracker-map { margin-top: 1.25rem; padding: 1rem; background: #e9eadf; border: 1px solid var(--line); }
+    .tracker-map h3 { margin: 0 0 .35rem; font: 1.35rem var(--serif); color: var(--forest); }
+    .tracker-map p { color: var(--muted); font-size: .75rem; margin: .65rem 0 0; }
+    .tracker-map svg { display: block; width: 100%; max-height: 300px; }
+    .locator-marker { cursor: pointer; }
+    .locator-marker circle { fill: #1f4938; stroke: #f7f5ec; stroke-width: 4; transition: fill .2s, stroke .2s; }
+    .locator-marker:focus-visible circle { stroke: #a97932; stroke-width: 6; }
+    .locator-marker text { fill: #fff; font: 12px Arial, sans-serif; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+    .locator-marker.is-selected circle { fill: #d5b76b; stroke: #173b2d; stroke-width: 5; }
+    .locator-marker.is-selected text { fill: #173b2d; font-weight: 700; }
+    .lga-layout { align-items: start; }
+    .lga-list { margin: 1.25rem 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+    .lga-button { width: 100%; min-height: 63px; display: flex; justify-content: space-between; align-items: center; gap: .5rem; color: var(--ink); }
+    .lga-button span { font-size: .78rem; line-height: 1.25; }
+    .lga-button small { color: var(--brass); font-size: .6rem; }
+    .lga-button[aria-pressed="true"] small { color: #e1c87e; }
+    .lga-visual { border: 1px solid var(--line); padding: 1rem; background: #e9eadf; }
+    .lga-visual img { display: block; width: 100%; height: auto; }
+    .lga-visual figcaption { font-size: .7rem; color: var(--muted); margin-top: .7rem; }
+    .lga-detail { grid-column: 1/-1; background: var(--white); padding: 1.1rem; border-top: 2px solid var(--forest); }
+    .lga-detail h3 { font: 1.3rem var(--serif); margin: 0 0 .45rem; }
+    .lga-categories { display: flex; gap: .4rem; flex-wrap: wrap; padding: 0; margin: .7rem 0; list-style: none; }
+    .lga-categories li { border: 1px solid var(--line); padding: .25rem .5rem; font-size: .64rem; color: var(--ink-soft); }
+    .record { scroll-margin-top: 6rem; }
+    .profile-modules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 2rem; margin-top: 2rem; }
+    .profile-modules article { border-top: 1px solid #567161; padding: 1rem 0; }
+    .profile-modules h3 { color: #d6b978; font: 1.23rem var(--serif); margin: 0 0 .5rem; }
+    .profile-modules p { color: #e2e9df; font-size: .82rem; margin: 0; }
+    .verified-count { display: inline-block; background: #f5f2e9; color: var(--forest); padding: .4rem .65rem; font-weight: 800; font-size: .72rem; }
+    .record-controls { display: flex; align-items: end; gap: .75rem; flex-wrap: wrap; margin: 1.3rem 0; }
+    .record-controls .field-control { min-width: 200px; }
+    .record-template { border: 1px dashed var(--line); padding: 1.3rem; background: #fffdf7; }
+    .record-template h3 { font: 1.45rem var(--serif); }
+    .record-template dl { display: grid; grid-template-columns: 160px 1fr; gap: .55rem 1rem; font-size: .8rem; margin: 1rem 0 0; }
+    .record-template dt { color: var(--forest); font-weight: 700; }
+    .record-template dd { margin: 0; color: var(--muted); }
+    .reported-records { margin-top: 2.5rem; }
+    .reported-records > h3 { font: 500 clamp(1.8rem, 3vw, 2.5rem)/1.1 var(--serif); }
+    .reported-record { padding: 1.2rem 0; border-top: 1px solid var(--line); }
+    .reported-record h4 { font: 1.35rem/1.2 var(--serif); margin: 0 0 .5rem; }
+    .reported-record p { color: var(--muted); font-size: .88rem; margin: 0 0 .65rem; }
+    .reported-record .news-meta { margin: 0; }
+    .change-sequence { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; margin: 1.8rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .change-step { padding: 1.3rem; border-right: 1px solid var(--line); }
+    .change-step:last-child { border: 0; }
+    .change-step span { font-size: .64rem; color: var(--brass); letter-spacing: .13em; font-weight: 800; }
+    .change-step h3 { font: 1.35rem var(--serif); margin: .45rem 0; }
+    .change-step p { color: var(--muted); font-size: .78rem; margin: 0; }
+    .dashboard { background: #e8e7dc; }
+    .dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #c4c2b6; border-left: 1px solid #c4c2b6; }
+    .dashboard-stat { min-height: 130px; padding: 1.15rem; border-right: 1px solid #c4c2b6; border-bottom: 1px solid #c4c2b6; }
+    .dashboard-stat strong { display: block; color: var(--forest); font: 2rem var(--serif); }
+    .dashboard-stat span { color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; }
+    .footer { background: var(--paper-2); border-top: 1px solid var(--line); padding: 2rem 0; }
+    .footer .wrap { display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+    .footer p { color: var(--muted); margin: 0; }
+    .footer-meta { text-align: right; font-size: .74rem; text-transform: uppercase; letter-spacing: .12em; color: var(--forest); }
+    .news-list { margin-top: 1.5rem; }
+    .news-article { display: grid; grid-template-columns: .45fr .55fr; gap: 1.5rem; background: var(--white); border-top: 3px solid var(--forest); padding: 1.4rem; margin-bottom: 1rem; }
+    .news-image { margin: 0; }
+    .news-image img { display: block; width: 100%; height: auto; max-height: 340px; object-fit: cover; border: 1px solid var(--line); }
+    .news-body { display: flex; flex-direction: column; justify-content: center; }
+    .news-meta { display: block; color: var(--brass); text-transform: uppercase; font-size: .64rem; font-weight: 800; letter-spacing: .12em; margin-bottom: .55rem; }
+    .news-body h3 { font: 1.4rem/1.18 var(--serif); margin: 0 0 .65rem; }
+    .news-body p { color: var(--muted); font-size: .88rem; margin: 0 0 .85rem; }
+    .news-evidence { display: flex; flex-wrap: wrap; gap: .4rem .9rem; color: var(--muted); font-size: .68rem; border-top: 1px solid var(--line); padding-top: .6rem; }
+    .hidden { display: none !important; }
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; min-height: auto; gap: 2rem; padding-block: 3.5rem 3rem; }
+      .hero-visual { min-height: 300px; justify-content: center; }
+      .manifesto-layout, .lga-layout, .tracker-top { display: grid; grid-template-columns: 1fr; }
+      .manifesto-intro { position: static; }
+      .news-article { grid-template-columns: 1fr; }
+      .tracker-filters { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+      .record-template dl { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: repeat(3,1fr); }
+      .theme-triad { grid-template-columns: 1fr; }
+      .change-sequence { grid-template-columns: 1fr; }
+      .change-step { border-right: 0; border-bottom: 1px solid var(--line); }
+      .change-step:last-child { border-bottom: 0; }
+      .dashboard-grid { grid-template-columns: 1fr 1fr; }
+      .profile-modules { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .media-grid { grid-template-columns: repeat(2, 1fr); }
+      .record-row { grid-template-columns: 1fr; }
+      .section-heading { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .section-heading p { max-width: 100%; }
+      .nav-links { display: none; }
+      .mobile-toggle { display: block; }
+      .nav-links.open {
+        display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(245,242,233,.98); border-bottom: 1px solid var(--line); padding: 1rem 1.2rem;
+        gap: .6rem; z-index: 21; box-shadow: 0 8px 24px rgba(0,0,0,.12);
+      }
+      .nav-links.open a { font-size: .88rem; padding: .55rem 0; border-bottom: 1px solid var(--line); }
+      .nav-links.open a:last-child { border-bottom: 0; }
+      .mobile-toggle[aria-expanded="true"] { background: var(--sage); border-color: var(--forest); }
+    }
+    @media (max-width: 600px) {
+      .wrap { width: calc(100% - 24px); }
+      .section { padding-block: 3rem; }
+      .utility .wrap { gap: .4rem; font-size: .65rem; }
+      .utility a { display:none; }
+      .brand { min-width: auto; gap: .55rem; }
+      .brand-name { font-size: .67rem; letter-spacing: .08em; }
+      .brand-note { font-size: .5rem; }
+      .brand-mark { width: 32px; height: 32px; font-size: .65rem; }
+      .nav-row { min-height: 60px; gap: .8rem; }
+      .nav-actions .button.small { display: none; }
+      .global-search .wrap { flex-direction: column; }
+      .global-search input { width: 100%; }
+      .hero {
+        background-image: linear-gradient(180deg, rgba(23,59,45,.6) 0%, rgba(23,59,45,.4) 58%, rgba(23,59,45,.55) 100%), url("assets/ekong.jpg");
+        background-position: center, 52% 30%;
+      }
+      .hero-grid { padding-block: 2.5rem 2rem; gap: 1.5rem; }
+      h1 { font-size: clamp(2.4rem, 10vw, 3.2rem); margin: .75rem 0; }
+      .hero-lede { font-size: .92rem; }
+      .hero-role { font-size: .74rem; margin: 1rem 0 1.25rem; }
+      .hero-actions { gap: .5rem; }
+      .hero-actions .button { flex: 1 1 100%; font-size: .75rem; min-height: 44px; }
+      .hero-visual { min-height: 260px; }
+      .visual-note { width: 65%; padding: .7rem; }
+      .visual-note p { font-size: .9rem; }
+      .locator-label { font-size: .56rem; padding: .4rem .55rem; }
+      .section-heading { gap: .75rem; margin-bottom: 1.6rem; }
+      .section-heading h2 { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+      .section-heading p { font-size: .82rem; }
+      .section-kicker { font-size: .6rem; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .metric { min-height: 80px; padding: .9rem .8rem; }
+      .metric strong { font-size: 1.5rem; }
+      .metric span { font-size: .66rem; }
+      .agenda-strip .wrap { gap: .4rem; }
+      .agenda-strip strong { font-size: .88rem; width: 100%; margin-bottom: .2rem; }
+      .agenda-strip a { font-size: .68rem; border-left: 0; padding: .2rem .35rem; }
+      .manifesto-controls { grid-template-columns: 1fr; }
+      .manifesto-theme { padding: 1rem; }
+      .manifesto-theme h3 { font-size: 1.3rem; }
+      .manifesto-intro h2 { font-size: clamp(1.8rem, 7vw, 2.4rem); }
+      .tracker-filters { grid-template-columns: 1fr; }
+      .view-toggle { flex-wrap: wrap; }
+      .project h3 { font-size: 1rem; }
+      .lga-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .lga-button { min-height: 52px; padding: .5rem .6rem; }
+      .lga-button span { font-size: .72rem; }
+      .record-controls { flex-direction: column; align-items: stretch; }
+      .record-controls .field-control { min-width: 0; width: 100%; }
+      .record-template { padding: .9rem; }
+      .record-template h3 { font-size: 1.15rem; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field-control input, .field-control select, .community-form input, .community-form select,
+      .community-form textarea, .enquiry-form input, .enquiry-form textarea { font-size: 16px; }
+      .news-article { padding: 1rem; gap: 1rem; }
+      .news-body h3 { font-size: 1.15rem; }
+      .news-body p { font-size: .82rem; }
+      .news-image img { max-height: 220px; }
+      .media-grid { grid-template-columns: 1fr 1fr; gap: .6rem; }
+      .media-card { padding: .8rem; }
+      .media-spotlight { padding: .6rem; }
+      .media-spotlight img { max-height: 280px; }
+      .contact-grid { grid-template-columns: 1fr; gap: .6rem; }
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .dashboard-stat { min-height: 90px; }
+      .footer .wrap { display: block; text-align: center; }
+      .footer-meta { text-align: center; margin-top: .8rem; }
+      .footer p { font-size: .82rem; }
+      .button { font-size: .74rem; padding: .65rem .9rem; min-height: 44px; }
+      .button.small { min-height: 40px; }
+    }
+    @media (max-width: 380px) {
+      .wrap { width: calc(100% - 16px); }
+      h1 { font-size: 2.2rem; }
+      .hero-grid { padding-block: 2rem 1.5rem; }
+      .visual-note { width: 70%; }
+      .metrics, .lga-list, .media-grid { grid-template-columns: 1fr; }
+      .brand-name { font-size: .6rem; }
+      .brand-mark { width: 28px; height: 28px; }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      *,*::before,*::after { scroll-behavior:auto!important; transition:none!important; animation:none!important; }
+    }
+  </style>
+  <meta property="og:title" content="EKONG SAMPSON CONNECT">
+  <meta property="og:description" content="Documenting Service. Connecting Communities. Tracking Progress.">
+  <meta property="og:type" content="website">
+</head>
+<body>
+  <marquee><ul style="color: green; background-color: wheat;">EKONG SAMPSON CONNECT</ul>THIS IS DONE UNDER THE SUPERVISION OF <b style="color:green;">IDORENYIN INOH</b></marquee>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="utility"><div class="wrap"><span>PUBLIC SERVICE · <strong>AKWA IBOM SOUTH</strong></span><a href="#contact">Constituency contact <span aria-hidden="true">↗</span></a></div></div>
+  <header class="masthead"><div class="wrap nav-row">
+    <a class="brand" href="#top" aria-label="Ekong Sampson Connect home"><span class="brand-mark" aria-hidden="true">ES</span><span><span class="brand-name">EKONG SAMPSON CONNECT</span><span class="brand-note">People. Projects. Progress.</span></span></a>
+    <nav class="nav-links" id="primary-nav" aria-label="Main navigation"><a href="#about">About</a><a href="#manifesto">Manifesto</a><a href="#tracker">Projects</a><a href="#lgas">Your LGA</a><a href="#news">News</a><a href="#media">Media</a></nav>
+    <div class="nav-actions"><button class="search-open" id="search-open" type="button" aria-expanded="false" aria-controls="site-search">⌕ <span>Search</span></button><a class="button small" href="#community-issue">Share an issue <span aria-hidden="true">↗</span></a><button class="mobile-toggle" id="mobile-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button></div>
+  </div><div class="global-search" id="site-search"><div class="wrap"><input id="site-search-input" type="search" placeholder="Search projects, policies, speeches, communities…" aria-label="Search this website prototype"><button class="button small" id="search-submit" type="button">Search</button></div><p class="wrap search-feedback" id="search-feedback" aria-live="polite">Search the content on this page only. There is no connected archive.</p></div></header>
+  <main id="main">
+    <section class="hero" id="top"><div class="wrap hero-grid"><div><span class="eyebrow">A public-service information hub</span><h1>EKONG<br>SAMPSON<br><span>CONNECT</span></h1><p class="tagline-lockup">Documenting Service. Connecting Communities. Tracking Progress.</p><p class="hero-lede">Explore what has been proposed, what is documented, where it happened, what is ongoing, and what communities are saying.</p><p class="hero-role">Senator representing Akwa Ibom South (Eket Senatorial District)<br>Chairman, Senate Committee on Solid Minerals Development · Vice Chairman, Senate Committee on Education (Basic and Secondary) · Member, Senate Committee on Marine Transport</p><div class="hero-actions"><a class="button" href="#manifesto">Read the Manifesto <span aria-hidden="true">↗</span></a><a class="button outline" href="#record">Explore His Record <span aria-hidden="true">↗</span></a><a class="button outline" href="#tracker">Project Tracker <span aria-hidden="true">↓</span></a></div></div><div class="hero-visual" aria-label="Photo of Senator Ekong Sampson"><div class="locator-label">12 LGAs<span>Explore community updates</span></div><div class="visual-note"><span class="eyebrow">The purpose</span><p>Service, made visible—and useful to the people it serves.</p></div></div></div></section>
+    <nav class="accountability" aria-label="Explore site topics"><div class="wrap metrics"><a class="metric" href="#lgas"><strong>12 LGAs</strong><span>Explore your area</span></a><a class="metric" href="#tracker"><strong>Projects</strong><span>Track proposals and updates</span></a><a class="metric" href="#manifesto"><strong>Policies</strong><span>Read theme frameworks</span></a><a class="metric" href="#news"><strong>News</strong><span>Updates when verified</span></a><a class="metric" href="#community-issue"><strong>Community</strong><span>Share an issue</span></a></div></nav>
+    <div class="agenda-strip"><div class="wrap"><strong>Development agenda</strong><a href="#theme-education">Education</a><a href="#theme-infrastructure">Infrastructure</a><a href="#theme-healthcare">Health</a><a href="#theme-youth">Youth</a><a href="#theme-agriculture">Agriculture</a><a href="#theme-enterprise">Enterprise</a><a href="#theme-maritime">Maritime / Blue Economy</a><a href="#theme-security">Security</a><a href="#theme-social">Social Development</a></div></div>
+    <section class="section" id="about">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><span class="section-kicker">01 / About Ekong Sampson</span><h2>A career in public service.</h2></div>
+          <p>His career spans local government, state legislative and executive service, and representation in the National Assembly.</p>
+        </div>
+        <p class="record-statement">Senator Akpan Ekong Sampson is a Nigerian lawyer, journalist, author and politician representing Akwa Ibom South Senatorial District in the 10th National Assembly. His public service includes legislative representation, committee responsibilities, education advocacy, community development initiatives, and reported interventions in healthcare and infrastructure.</p>
+        <p>An assessment of his contributions across these roles can draw on his legislative record, committee work, constituency interventions and the implementation status of projects associated with his office.</p>
+
+        <h3>Early Career and Political Development</h3>
+        <p>From 1999 to 2003, Sampson served as a legislative aide to Senator Udoma Udo Udoma, gaining experience with the National Assembly and the legislative process. He later served as Chairman of Mkpat Enin Local Government Area and represented Mkpat Enin State Constituency in the Akwa Ibom State House of Assembly for two terms.</p>
+        <p>He also served as Special Adviser on Political and Legislative Affairs to the Akwa Ibom State Government. His subsequent executive appointments covered Rural Development, Economic Development, Labour and Manpower Planning, and Environment and Petroleum Resources. These roles involved political coordination and work across rural development, economic planning, labour and environmental and petroleum-related affairs.</p>
+        <p>A fuller assessment of his work in these offices would require the relevant government records, policy documents and project information.</p>
+
+        <h3>Earlier Legislative Career in Akwa Ibom State</h3>
+        <p>Sampson’s two terms representing Mkpat Enin State Constituency in the Akwa Ibom State House of Assembly preceded his election to the federal Senate and gave him experience in state-level lawmaking and representation. A comprehensive account of this period would document bills sponsored or co-sponsored, motions, committee assignments, oversight activities and laws passed during his tenure.</p>
+        <p>Any account should distinguish projects he personally facilitated from those undertaken by the Akwa Ibom State Government or its agencies. His subsequent executive appointments in Rural Development, Economic Development, Labour and Manpower Planning, and Environment and Petroleum Resources warrant separate examination through government records, policy documents and ministry reports. Research on his Environment and Petroleum Resources portfolio should be based on documented policies, interventions and official actions, particularly in relation to environmental management and petroleum-producing communities.</p>
+
+        <h3>Election to the Nigerian Senate</h3>
+        <p>Sampson was elected to represent Akwa Ibom South Senatorial District in the February 2023 general election and became a member of the 10th National Assembly. His election marked his transition from state-level politics to federal legislative representation.</p>
+        <p>The district’s interests include education, healthcare, roads, electricity, agriculture, maritime activities, environmental protection and economic opportunities linked to the area’s natural resources. As a senator, his responsibilities include representing constituents, participating in federal lawmaking and legislative debate, overseeing government institutions, and advocating policies that address the district’s needs.</p>
+
+        <h3>Legislative Responsibilities and Committee Work</h3>
+        <p>Public reporting has identified Sampson as Chairman of the Senate Committee on Solid Minerals Development and Vice Chairman of the Committee on Education (Basic and Secondary). These committee assignments provide an institutional role in engaging with mineral-sector development, education policy and oversight of relevant government activities. He has also been identified as a member of the Senate Committee on Marine Transport.</p>
+        <p>Legislative work relating to solid minerals can include examining mining regulation, investment, environmental concerns, revenue generation and the formalisation of mining activities—an important part of Nigeria’s efforts to diversify its economy beyond petroleum. Committee responsibilities in basic and secondary education provide opportunities to examine education policy, federal interventions, institutional funding and challenges affecting access to quality education.</p>
+        <p>The significance of these roles is best evaluated through specific committee reports, hearings, oversight visits, recommendations and legislative outcomes rather than committee titles alone.</p>
+
+        <h3>Political Development and Party Affiliation</h3>
+        <p>Public reporting recorded Sampson’s movement from the Peoples Democratic Party (PDP) to the All Progressives Congress (APC) in July 2025. This development forms part of the political history of his Senate tenure and the wider political landscape in Akwa Ibom State.</p>
+
+        <h3>Conclusion</h3>
+        <p>Senator Akpan Ekong Sampson’s public career extends from legislative assistance and local government administration to state-level lawmaking, executive appointments and representation in the Nigerian Senate.</p>
+        <p>His experience across these institutions provides a basis for examining his approach to legislation, public administration and constituency development. His reported Senate activities and constituency interventions also raise questions about the relationship between legislative representation, project delivery and measurable public benefit.</p>
+        <p>A complete and authoritative profile will require a detailed timeline of his bills, motions, committee reports, previous Assembly activities and constituency projects, supported by official records and independent verification.</p>
+      </div>
+    </section>
+    <section class="section manifesto" id="manifesto"><div class="wrap manifesto-layout"><div class="manifesto-intro"><span class="section-kicker">02 / Read the Manifesto</span><h2>From public need to policy idea.</h2><p>Browse development themes as an editorial framework. No official manifesto document or detailed platform was supplied; the theme cards are illustrative prompts, not verified promises.</p><p><button class="button outline" type="button" disabled aria-describedby="manifesto-download-note">Download the manifesto placeholder</button></p><p id="manifesto-download-note" class="notice"><strong>Placeholder:</strong> no downloadable manifesto file or official PDF was supplied.</p><div class="manifesto-controls"><div class="field-control"><label for="manifesto-search">Search policy themes</label><input id="manifesto-search" type="search" placeholder="Search education, health, youth…"></div><div class="field-control"><label for="manifesto-filter">Filter by theme</label><select id="manifesto-filter"><option value="all">All themes</option><option value="education">Education</option><option value="infrastructure">Infrastructure</option><option value="healthcare">Healthcare</option><option value="youth">Youth</option><option value="agriculture">Agriculture</option><option value="enterprise">Enterprise</option><option value="security">Security</option><option value="social">Social Development</option></select></div></div><p class="filter-feedback" id="manifesto-feedback" aria-live="polite">Showing all theme frameworks. These are illustrative prompts pending verification.</p></div><div class="manifesto-themes">
+      <article class="manifesto-theme" data-theme="education" id="theme-education"><div class="theme-label">Theme 01</div><h3>Education and Skills</h3><div class="theme-triad"><div><b>Problem</b><p>Low quality access, uneven school support, weak youth skills pipelines.</p></div><div><b>Proposal</b><p>Improve school support, teacher capacity, digital learning and technical skills pathways.</p></div><div><b>Impact</b><p>Better learning outcomes and stronger local human capital.</p></div></div><div class="theme-actions"><button class="text-button" type="button">Share theme</button></div></article>
+      <article class="manifesto-theme" data-theme="infrastructure" id="theme-infrastructure"><div class="theme-label">Theme 02</div><h3>Infrastructure and Utilities</h3><div class="theme-triad"><div><b>Problem</b><p>Uneven road access, weak power reliability and poor public amenities in some communities.</p></div><div><b>Proposal</b><p>Prioritize road upgrades, utilities, drainage and basic public works in underserved areas.</p></div><div><b>Impact</b><p>Improved connectivity, productivity and service delivery.</p></div></div><div class="theme-actions"><button class="text-button" type="button">Share theme</button></div></article>
+      <article class="manifesto-theme" data-theme="healthcare" id="theme-healthcare"><div class="theme-label">Theme 03</div><h3>Healthcare Access</h3><div class="theme-triad"><div><b>Problem</b><p>Weak community health coverage, limited facilities and gaps in preventive care access.</p></div><div><b>Proposal</b><p>Strengthen primary care, outreach and local health infrastructure across the district.</p></div><div><b>Impact</b><p>Healthier families and reduced treatment burdens.</p></div></div><div class="theme-actions"><button class="text-button" type="button">Share theme</button></div></article>
+      <article class="manifesto-theme" data-theme="youth" id="theme-youth"><div class="theme-label">Theme 04</div><h3>Youth, Jobs and Civic Participation</h3><div class="theme-triad"><div><b>Problem</b><p>Young people face limited opportunities and weak pathways into productive engagement.</p></div><div><b>Proposal</b><p>Expand apprenticeships, community enterprise support and youth leadership platforms.</p></div><div><b>Impact</b><p>Greater economic participation and stronger civic energy.</p></div></div><div class="theme-actions"><button class="text-button" type="button">Share theme</button></div></article>
+      <article class="manifesto-theme" data-theme="agriculture" id="theme-agriculture"><div class="theme-label">Theme 05</div><h3>Agriculture and Food Security</h3><div class="theme-triad"><div><b>Problem</b><p>Food systems remain fragile in parts of the district, with uneven farmer support and value-chain gaps.</p></div><div><b>Proposal</b><p>Support local producers, storage, market access and food safety practices.</p></div><div><b>Impact</b><p>Stronger rural livelihoods and more resilient communities.</p></div></div><div class="theme-actions"><button class="text-button" type="button">Share theme</button></div></article>
+      <article class="manifesto-theme" data-theme="enterprise" id="theme-enterprise"><div class="theme-label">Theme 06</div><h3>Enterprise and MSMEs</h3><div class="theme-triad"><div><b>Problem</b><p>Local small businesses need better access to capital, branding and market visibility.</p></div><div><b>Proposal</b><p>Build support around SME financing, business development and local value creation.</p></div><div><b>Impact</b><p>More jobs, stronger local commerce and inclusive growth.</p></div></div><div class="theme-actions"><button class="text-button" type="button">Share theme</button></div></article>
+      <article class="manifesto-theme" data-theme="security" id="theme-security"><div class="theme-label">Theme 07</div><h3>Security and Civic Trust</h3><div class="theme-triad"><div><b>Problem</b><p>Communities need safety, stronger policing coordination and confidence in public institutions.</p></div><div><b>Proposal</b><p>Improve local cooperation, secure public spaces and strengthen accountability mechanisms.</p></div><div><b>Impact</b><p>Safer communities and more trust in public systems.</p></div></div><div class="theme-actions"><button class="text-button" type="button">Share theme</button></div></article>
+      <article class="manifesto-theme" data-theme="social" id="theme-social"><div class="theme-label">Theme 08</div><h3>Social Development</h3><div class="theme-triad"><div><b>Problem</b><p>Some communities feel disconnected from public institutions and service delivery.</p></div><div><b>Proposal</b><p>Increase outreach, transparent engagement and community-focused development planning.</p></div><div><b>Impact</b><p>More responsive governance and better public trust.</p></div></div><div class="theme-actions"><button class="text-button" type="button">Share theme</button></div></article>
+    </div></div></section>
+    <section class="section tracker" id="tracker">
+      <div class="wrap">
+        <div class="section-heading tracker-top">
+          <div><span class="section-kicker">03 / Project Tracker</span><h2>What is underway, and what is still only a proposal?</h2></div>
+          <p>Select an LGA to filter project details and highlight it on the live locator. Project examples are illustrative; the locator is schematic, not a geographic map.</p>
+        </div>
+        <div class="tracker-filters">
+          <div class="field-control"><label for="project-lga">LGA</label><select id="project-lga">
+            <option value="all">All LGAs</option><option value="eket">Eket</option><option value="esit-eket">Esit Eket</option><option value="ibeno">Ibeno</option><option value="onna">Onna</option><option value="mkpat-enin">Mkpat-Enin</option><option value="ikot-abasi">Ikot Abasi</option><option value="eastern-obolo">Eastern Obolo</option><option value="oron">Oron</option><option value="mbo">Mbo</option><option value="okobo">Okobo</option><option value="udung-uko">Udung Uko</option><option value="urue-offong-oruko">Urue-Offong/Oruko</option>
+          </select></div>
+          <div class="field-control"><label for="project-community">Community</label><input id="project-community" type="text" placeholder="Search community"></div>
+          <div class="field-control"><label for="project-sector">Sector</label><select id="project-sector"><option value="all">All sectors</option><option value="education">Education</option><option value="health">Health</option><option value="infrastructure">Infrastructure</option><option value="water">Water</option></select></div>
+          <div class="field-control"><label for="project-year">Year</label><select id="project-year"><option value="all">All years</option><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option><option value="2032">2032</option><option value="2033">2033</option></select></div>
+          <div class="field-control"><label for="project-status">Status</label><select id="project-status"><option value="all">All statuses</option><option value="proposal">Proposal</option><option value="ongoing">Ongoing</option><option value="completed">Completed</option></select></div>
+        </div>
+        <div class="view-toggle"><button type="button" data-view="list" aria-pressed="true">List only</button><button type="button" data-view="map" aria-pressed="false">List + live locator</button></div>
+        <p class="filter-feedback" id="filter-feedback" aria-live="polite">Select an LGA to see matching project details and its location on the locator.</p>
+        <div class="project-list" id="project-list">
+          <article class="project" data-lga="eket" data-community="eket" data-sector="education" data-year="2024" data-status="proposal">
+            <div class="project-meta">Eket · Education · 2024 · Proposal</div><h3>Community Learning Hub Upgrade</h3>
+            <p>Illustrative concept for a local educational support centre with digital access and after-school learning facilities.</p>
+            <div class="project-evidence"><span>Evidence: not verified</span><span>Funding: illustrative</span><span>Status: proposal</span></div>
+          </article>
+          <article class="project" data-lga="esit-eket" data-community="oniong" data-sector="health" data-year="2023" data-status="ongoing">
+            <div class="project-meta">Esit Eket · Health · 2023 · Ongoing</div><h3>Primary Health Outreach Rollout</h3>
+            <p>Illustrative plan to expand outreach services and support local screening programmes.</p>
+            <div class="project-evidence"><span>Evidence: not verified</span><span>Funding: illustrative</span><span>Status: ongoing</span></div>
+          </article>
+          <article class="project" data-lga="mkpat-enin" data-community="ikot-essen-akpan-ntuen" data-sector="infrastructure" data-year="2024" data-status="ongoing">
+            <div class="project-meta">Mkpat Enin · Infrastructure · 2024 · Ongoing</div><h3>Ibekwe–Ikot Unya–Ekpuk Road Project</h3>
+            <p>Ongoing road construction connecting Ibekwe, Ikot Unya and Ekpuk communities in Ikpa Ikono Clan, Mkpat Enin LGA. Commended by residents of Ikot Essen Akpan Ntuen for improving access and connectivity in the area.</p>
+            <div class="project-evidence"><span>Evidence: community report</span><span>Funding: senatorial intervention</span><span>Status: ongoing</span></div>
+          </article>
+          <article class="project" data-lga="mkpat-enin" data-community="ikot-essen-akpan-ntuen" data-sector="water" data-year="2024" data-status="completed">
+            <div class="project-meta">Mkpat Enin · Water · 2024 · Completed</div><h3>Solar-Powered Water Project — Ikot Essen Akpan Ntuen</h3>
+            <p>Newly commissioned solar-powered water scheme serving the Ikot Essen Akpan Ntuen community in Ikpa Ikono Clan, Mkpat Enin LGA. Features an elevated water tower with multiple taps for community access.</p>
+            <div class="project-evidence"><span>Evidence: community report, photo verified</span><span>Funding: senatorial intervention</span><span>Status: completed</span></div>
+          </article>
+        </div>
+        <div class="project-sync-row">
+          <p class="notice" id="project-sync-feedback" aria-live="polite">Loading projects published by the project team…</p>
+          <button class="button outline small" id="refresh-project-updates" type="button">Refresh project updates</button>
+        </div>
+        <div class="tracker-map hidden" id="tracker-map">
+          <h3 id="tracker-map-title">Akwa Ibom South LGA locator</h3>
+          <p id="tracker-map-selection" aria-live="polite">Select an LGA to highlight it. No project sites are plotted.</p>
+          <svg viewBox="0 0 480 300" role="group" aria-labelledby="tracker-map-svg-title tracker-map-svg-desc">
+            <title id="tracker-map-svg-title">Schematic selector for the 12 local government areas</title>
+            <desc id="tracker-map-svg-desc">A non-geographic arrangement of selectable local government labels; it does not show boundaries or project coordinates.</desc>
+            <rect width="480" height="300" fill="#e9eadf"/>
+            <path d="M0 228c83-28 109-31 166-15s101-5 153-39 104-38 161-18v144H0Z" fill="#d9ddcb"/>
+            <path d="M24 84c70 18 107 8 156-21s91-25 127 7 88 39 149 18M23 187c58-22 105-16 147 2s79 17 128-7 92-27 159-6" fill="none" stroke="#b5bea7" stroke-width="2" stroke-dasharray="4 8"/>
+            <g class="locator-marker" data-lga="eket"><circle cx="61" cy="73" r="17"/><text x="61" y="73">01</text></g>
+            <g class="locator-marker" data-lga="esit-eket"><circle cx="164" cy="48" r="17"/><text x="164" y="48">02</text></g>
+            <g class="locator-marker" data-lga="ibeno"><circle cx="266" cy="60" r="17"/><text x="266" y="60">03</text></g>
+            <g class="locator-marker" data-lga="onna"><circle cx="380" cy="88" r="17"/><text x="380" y="88">04</text></g>
+            <g class="locator-marker" data-lga="mkpat-enin"><circle cx="105" cy="145" r="17"/><text x="105" y="145">05</text></g>
+            <g class="locator-marker" data-lga="ikot-abasi"><circle cx="214" cy="132" r="17"/><text x="214" y="132">06</text></g>
+            <g class="locator-marker" data-lga="eastern-obolo"><circle cx="324" cy="155" r="17"/><text x="324" y="155">07</text></g>
+            <g class="locator-marker" data-lga="oron"><circle cx="423" cy="168" r="17"/><text x="423" y="168">08</text></g>
+            <g class="locator-marker" data-lga="mbo"><circle cx="56" cy="228" r="17"/><text x="56" y="228">09</text></g>
+            <g class="locator-marker" data-lga="okobo"><circle cx="159" cy="225" r="17"/><text x="159" y="225">10</text></g>
+            <g class="locator-marker" data-lga="udung-uko"><circle cx="273" cy="215" r="17"/><text x="273" y="215">11</text></g>
+            <g class="locator-marker" data-lga="urue-offong-oruko"><circle cx="376" cy="230" r="17"/><text x="376" y="230">12</text></g>
+          </svg>
+          <p>Schematic locator only—not a geographic map. Marker positions are illustrative, not actual boundaries or project locations.</p>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="lgas"><div class="wrap"><div class="section-heading"><div><span class="section-kicker">04 / Your LGA</span><h2>Explore the district by area.</h2></div><p>The locator is expressly abstract and non-geographic. It does not represent official boundary maps.</p></div><div class="lga-layout"><div class="lga-list" aria-label="Local Government Areas"><button class="lga-button" type="button" data-lga="1" aria-pressed="false"><span>Eket</span><small>01</small></button><button class="lga-button" type="button" data-lga="2" aria-pressed="false"><span>Esit Eket</span><small>02</small></button><button class="lga-button" type="button" data-lga="3" aria-pressed="false"><span>Ibeno</span><small>03</small></button><button class="lga-button" type="button" data-lga="4" aria-pressed="false"><span>Onna</span><small>04</small></button><button class="lga-button" type="button" data-lga="5" aria-pressed="false"><span>Mkpat-Enin</span><small>05</small></button><button class="lga-button" type="button" data-lga="6" aria-pressed="false"><span>Ikot Abasi</span><small>06</small></button><button class="lga-button" type="button" data-lga="7" aria-pressed="false"><span>Eastern Obolo</span><small>07</small></button><button class="lga-button" type="button" data-lga="8" aria-pressed="false"><span>Oron</span><small>08</small></button><button class="lga-button" type="button" data-lga="9" aria-pressed="false"><span>Mbo</span><small>09</small></button><button class="lga-button" type="button" data-lga="10" aria-pressed="false"><span>Okobo</span><small>10</small></button><button class="lga-button" type="button" data-lga="11" aria-pressed="false"><span>Udung Uko</span><small>11</small></button><button class="lga-button" type="button" data-lga="12" aria-pressed="false"><span>Urue-Offong/Oruko</span><small>12</small></button></div><div class="lga-visual"><figure><img src="assets/locator-grid.svg" alt="Abstract locator grid"><figcaption>Non-geographic locator view for prototype interactions only.</figcaption></figure><div class="lga-detail" id="lga-detail"><h3 id="lga-selected-title">Select an LGA</h3><p id="lga-feedback">Choose an LGA to see the area-specific placeholder summary.</p></div></div></div></div></section>
+    <section class="section record" id="record"><div class="wrap"><div class="section-heading"><div><span class="section-kicker">05 / Explore His Record</span><h2>Reported activity, with verification still to be established.</h2></div><p>The summaries below describe reported activity, not independently verified outcomes. Bill status, project delivery and impact require confirmation against primary records.</p></div><div class="record-controls"><div class="field-control"><label for="record-category">Category</label><select id="record-category"><option value="all">All categories</option><option value="speeches">Speeches</option><option value="appointments">Appointments</option><option value="programmes">Programmes</option></select></div><div class="field-control"><label for="record-status">Status</label><select id="record-status"><option value="all">All statuses</option><option value="verified">Verified</option><option value="awaiting">Awaiting verification</option></select></div></div><p class="filter-feedback" id="record-feedback" aria-live="polite">No verified documents or official records are published in the archive. The summaries below are attributed to public reporting and remain subject to verification.</p><div class="record-template"><h3>Record template</h3><dl><dt>Title</dt><dd>Record or document title</dd><dt>Location</dt><dd>Community, LGA or event location</dd><dt>Date</dt><dd>YYYY-MM-DD</dd><dt>Sector</dt><dd>Education, Infrastructure, Health, Agriculture, Security, etc.</dd><dt>Status</dt><dd>Verified / Awaiting verification / Illustrative</dd><dt>Evidence</dt><dd>Source, document reference or official statement</dd></dl></div>
+      <div class="reported-records">
+        <h3>Legislation, education and constituency activity</h3>
+        <article class="reported-record">
+          <span class="news-meta">Legislation · Bill status requires confirmation</span>
+          <h4>Proposals concerning federal universities and medical institutions</h4>
+          <p>Public reporting has associated Sampson with sponsorship of a bill to establish the Federal University of Technology, Ikot Abasi, and with proposals reported in December 2025 concerning a Federal University of Medical Sciences and federal medical institutions. The proposals have been presented as efforts to expand access to higher education and technical training. Their bill numbers, provisions, legislative stages and outcomes should be checked against National Assembly records; a proposal is not an established institution.</p>
+        </article>
+        <article class="reported-record">
+          <span class="news-meta">Legislation · Senate order paper, 8 October 2025</span>
+          <h4>Committee report on the proposed Nigeria Mines Rangers Service Bill</h4>
+          <p>A Senate order paper dated 8 October 2025 listed Sampson presenting a report of the Senate Committee on Solid Minerals Development concerning the proposed Nigeria Mines Rangers Service (Establishment) Bill, SB. 253. The report presentation is a legislative activity; its recommendations, subsequent deliberations and the bill’s progress or outcome require confirmation from official records.</p>
+        </article>
+        <article class="reported-record">
+          <span class="news-meta">Education · Punch Newspapers, December 2025</span>
+          <h4>Reported ₦100 million educational grant programme</h4>
+          <p>Punch Newspapers reported that a grant programme was intended to support 500 students from Akwa Ibom South, with each beneficiary expected to receive ₦200,000. To assess implementation, records should establish actual payments, eligibility criteria, distribution across the district’s LGAs and evidence of disbursement. The reported figures describe the programme’s stated intent, not confirmed payments.</p>
+        </article>
+        <article class="reported-record">
+          <span class="news-meta">Healthcare · The Southern Examiner, 2026</span>
+          <h4>Reported hospital facilities and medical outreach</h4>
+          <p>The Southern Examiner reported the commissioning of a doctors’ call room at Immanuel General Hospital, Eket, alongside a free medical outreach. The report also referred to a facility at General Hospital, Ikot Abasi, and another project at General Hospital, Iquita, Oron. Funding, handover dates, current operating status, outreach services and the number of beneficiaries require further documentation.</p>
+        </article>
+        <article class="reported-record">
+          <span class="news-meta">Electricity · Reports published in 2026</span>
+          <h4>Reported 500kVA transformer installations</h4>
+          <p>Reports published in 2026 described a 500kVA transformer intervention in Okon Eket and the subsequent installation of another 500kVA transformer at Ikot Ataku. Verification of commissioning dates, streets and communities served, distribution-network connections, responsible electricity distribution authorities and continuity of supply would help establish their practical impact.</p>
+        </article>
+        <article class="reported-record">
+          <span class="news-meta">Roads · FERMA site handover reported 16 September 2026</span>
+          <h4>Proposed three-kilometre Ikot Unya–Ikot Umiang Junction road project</h4>
+          <p>A report dated 16 September 2026 stated that the Federal Road Maintenance Agency (FERMA) had handed over the site of a proposed three-kilometre road project in Mkpat Enin to its contractor. A site handover indicates a project stage, not completion. Funding, contractor, construction progress, completion date and quality should be checked through FERMA records and physical inspection. Responsibility should be attributed according to the documented roles of the agency and other institutions.</p>
+        </article>
+        <article class="reported-record">
+          <span class="news-meta">Education · ICT facilities reported at three schools</span>
+          <h4>Computer-based testing and ICT facilities</h4>
+          <p>Reports have identified computer-based testing and ICT facilities at Excellence College, Ikot Unya, in Mkpat Enin; St. Francis Secondary School, Ikot Ataku, in Eket; and St. Vincent Secondary School, Oti-Oro, in Okobo. Their educational value depends on the number and condition of computers, electricity, connectivity, maintenance and actual use. Functional status and student reach remain to be established.</p>
+        </article>
+        <article class="reported-record">
+          <span class="news-meta">Other reported programme areas · Project-level evidence needed</span>
+          <h4>Enterprise, vocational training, water, lighting and employment</h4>
+          <p>Other areas reported in connection with constituency activities include entrepreneurship support, vocational training, employment facilitation, water provision and solar streetlighting. Evidence for enterprise support could include beneficiary numbers, amounts disbursed, training and follow-up on businesses. Water and lighting projects require location, completion, functionality and maintenance information. Employment claims should be supported by records or confirmation from recruiting institutions.</p>
+        </article>
+        <article class="reported-record">
+          <span class="news-meta">Public accountability · Reports in July 2025</span>
+          <h4>Reported complaints concerning constituency projects</h4>
+          <p>Reports in July 2025 carried complaints from community groups alleging exclusion from constituency projects. These allegations raise questions about representation, project distribution and engagement between the senator and communities. A balanced examination should establish the specific allegations, communities involved, evidence provided and any response from Sampson or his office. The complaints should not be treated as proven findings without supporting evidence.</p>
+          <p>Broader accountability questions include how projects are distributed across the district, how funding is disclosed, whether announced interventions are implemented and whether completed facilities benefit residents.</p>
+        </article>
+        <div class="reported-records">
+          <h3>Assessing His Public Service Record</h3>
+          <p>Sampson’s career provides several areas for evaluating public representation: legislative work, committee responsibilities, education advocacy, student support, healthcare interventions, electricity infrastructure, road projects and his earlier service in the state legislature and executive.</p>
+          <p>The available reporting identifies specific activities, including the student-grant programme, the proposed Federal University of Technology, Ikot Abasi, solid minerals committee work, reported healthcare facilities, transformer interventions and the road project in Mkpat Enin. These activities differ in nature and status. Some relate to legislative proposals, others to reported financial assistance or infrastructure interventions, while some remain subject to verification of completion and operation.</p>
+          <p>A fair assessment should distinguish between activities announced, bills introduced, projects under construction, facilities completed and interventions whose benefits have been independently established. Official National Assembly documents, state government records, project-owning agencies, credible media reports and direct accounts from affected communities are essential to evaluating reach, implementation and outcomes.</p>
+        </div>
+        <p class="notice"><strong>Assessment note:</strong> Reported activities and allegations are subjects for further investigation. Implementation, outcomes and impact should be established from primary documents, responsible institutions, physical inspection and accounts from affected communities.</p>
+      </div>
+    </div></section>
+    <section class="section" id="community-issue"><div class="wrap"><div class="section-heading"><div><span class="section-kicker">06 / Community Voices</span><h2>Share what your community is experiencing.</h2></div><p>Submissions are saved for the senator and authorised project staff to review in the private admin portal. Your issue is not published publicly. Avoid including sensitive personal information.</p></div><form class="community-form" id="community-form"><div class="form-grid"><div class="field-control"><label for="community-name">Name (optional)</label><input id="community-name" name="name" type="text" maxlength="120" autocomplete="name" placeholder="Your name"></div><div class="field-control"><label for="community-lga">LGA</label><select id="community-lga" name="lga" required><option value="">Select LGA</option><option value="eket">Eket</option><option value="esit-eket">Esit Eket</option><option value="ibeno">Ibeno</option><option value="onna">Onna</option><option value="mkpat-enin">Mkpat-Enin</option><option value="ikot-abasi">Ikot Abasi</option><option value="eastern-obolo">Eastern Obolo</option><option value="oron">Oron</option><option value="mbo">Mbo</option><option value="okobo">Okobo</option><option value="udung-uko">Udung Uko</option><option value="urue-offong-oruko">Urue-Offong/Oruko</option></select></div><div class="field-control"><label for="community-community">Community</label><input id="community-community" name="community" type="text" maxlength="120" placeholder="Community or ward" required></div><div class="field-control"><label for="community-category">Category</label><select id="community-category" name="category" required><option value="">Select category</option><option value="infrastructure">Infrastructure</option><option value="education">Education</option><option value="health">Health</option><option value="security">Security</option><option value="other">Other</option></select></div><div class="field-control full"><label for="community-message">Message</label><textarea id="community-message" name="message" rows="5" maxlength="3000" placeholder="Tell us about the issue or need in your community." required></textarea></div><div class="field-control"><label for="community-attachment">Attachment (optional: PDF, JPEG, PNG or WebP; max 5 MB)</label><input id="community-attachment" name="attachment" type="file" accept="application/pdf,image/jpeg,image/png,image/webp"></div><div class="checkbox-row"><label><input id="community-consent" name="consent" type="checkbox" value="true" required> I consent to my submission being considered for review by the senator and authorised project staff.</label></div></div><p class="filter-feedback" id="form-feedback" aria-live="polite"></p><div class="form-actions"><button class="button" type="submit">Submit issue</button></div></form></div></section>
+    <section class="section" id="news"><div class="wrap"><div class="section-heading"><div><span class="section-kicker">07 / News &amp; Updates</span><h2>Empty archives are treated as honest holdings.</h2></div><p>Newsroom categories are in place, but no verified content has been supplied for publication.</p></div><div class="field-control inline"><label for="news-category">News category</label><select id="news-category"><option value="all">All categories</option><option value="press">Press release</option><option value="speech">Speech</option><option value="update">Update</option></select></div><p class="filter-feedback" id="news-feedback" aria-live="polite">1 verified news item published.</p>
+    <div class="news-list">
+      <article class="news-article" data-category="update">
+        <figure class="news-image"><img src="assets/water.jpg" alt="Solar-powered water project commissioned at Ikot Essen Akpan Ntuen, Mkpat Enin LGA — water tower with multiple taps serving the community"></figure>
+        <div class="news-body">
+          <span class="news-meta">Update · Mkpat Enin LGA · Ikpa Ikono Clan</span>
+          <h3>Ikot Essen Akpan Ntuen Commends Senator Ekong Sampson over Ibekwe–Ikot Unya–Ekpuk Road, Solar-Powered Water Project</h3>
+          <p>Residents of Ikot Essen Akpan Ntuen community in Ikpa Ikono Clan, Mkpat Enin Local Government Area of Akwa Ibom State have lauded the Senator representing Akwa Ibom South, Ekong Sampson, for his impactful interventions in the area, particularly the ongoing Ibekwe–Ikot Unya–Ekpuk Road project and a newly commissioned solar-powered water scheme.</p>
+          <div class="news-evidence"><span>Source: Community report</span><span>LGA: Mkpat Enin</span><span>Status: Verified</span></div>
+        </div>
+      </article>
+    </div>
+    </div></section>
+    <section class="section" id="media"><div class="wrap"><div class="section-heading"><div><span class="section-kicker">08 / Media Centre</span><h2>Official media is clearly marked as unavailable.</h2></div><p>Photos, speeches, videos, interviews and document archives remain placeholders until official links or approved files are supplied.</p></div><figure class="media-spotlight"><img src="assets/728637307_1732170871258486_7123339157467664363_n.jpg" alt="Doctors Call Room, Immanuel Hospital, Eket LGA — built by Senator Ekong Sampson"><figcaption>Doctors Call Room, Immanuel Hospital, Eket LGA — built by Senator Ekong Sampson.</figcaption></figure><figure class="media-spotlight"><img src="assets/water.jpg" alt="Solar-powered water project at Ikot Essen Akpan Ntuen, Mkpat Enin LGA — elevated water tower with taps for community use"><figcaption>Solar-powered water project at Ikot Essen Akpan Ntuen, Ikpa Ikono Clan, Mkpat Enin LGA — commissioned through the intervention of Senator Ekong Sampson.</figcaption></figure><div class="media-grid"><div class="media-card"><h3>Photos</h3><p>Awaiting official media approvals and uploads.</p></div><div class="media-card"><h3>Videos</h3><p>Awaiting official recordings and approved footage.</p></div><div class="media-card"><h3>Speeches</h3><p>Awaiting published remarks and authored transcripts.</p></div><div class="media-card"><h3>Documents</h3><p>Awaiting official briefing notes and PDFs.</p></div></div></div></section>
+    <section class="section" id="events"><div class="wrap"><div class="section-heading"><div><span class="section-kicker">09 / Events Calendar</span><h2>Upcoming and past events remain empty by design.</h2></div><p>There are no scheduled or archived event entries until official planning information is supplied.</p></div><div class="event-template"><p class="notice">Event schema: title, date/time, location, description, photos/video, related news and status.</p></div></div></section>
+    <section class="section" id="documents"><div class="wrap"><div class="section-heading"><div><span class="section-kicker">10 / Document Library</span><h2>Documents follow the same evidence-first rules.</h2></div><p>No file downloads are provided unless an approved file is supplied and published with consent.</p></div><div class="document-library"><div class="doc-item">Manifesto draft: placeholder only</div><div class="doc-item">Policy brief: placeholder only</div><div class="doc-item">Public speech notes: placeholder only</div></div></div></section>
+    <section class="section dashboard" id="accountability"><div class="wrap"><div class="section-heading"><div><span class="section-kicker">11 / What Has Changed?</span><h2>Before, intervention, and current status are clearly separated.</h2></div><p>Illustrative change tracking is intentionally labeled and kept distinct from verified outcomes.</p></div><div class="change-sequence"><div class="change-step"><span>Before</span><h3>Problem</h3><p>Communities often report long waits for service, weak visibility and limited policy follow-through.</p></div><div class="change-step"><span>Intervention</span><h3>Action</h3><p>Documenting issues, mapping projects and clarifying community priorities creates a visible system of accountability.</p></div><div class="change-step"><span>Current status</span><h3>Prototype</h3><p>What is available here is an editorial prototype for civic information and accountability.</p></div></div><div class="dashboard-grid"><div class="dashboard-stat"><strong>0</strong><span>Verified records</span></div><div class="dashboard-stat"><strong>0</strong><span>Published updates</span></div><div class="dashboard-stat"><strong>0</strong><span>Confirmed files</span></div></div></div></section>
+    <section class="section" id="contact"><div class="wrap"><div class="section-heading"><div><span class="section-kicker">12 / Contact &amp; Constituency Office</span><h2>Public contact details are intentionally pending publication.</h2></div><p>Office details, enquiry routes and response commitments are not yet verified or published here.</p></div><div class="contact-grid"><div class="contact-card"><h3>Office</h3><p>Official office information is pending publication.</p></div><div class="contact-card"><h3>Enquiries</h3><p>Public enquiries route is pending publication.</p></div><div class="contact-card"><h3>Community issues</h3><p>Share in the community input form above.</p></div></div></div></section>
+  </main>
+  <footer class="footer"><div class="wrap"><div><span class="brand-name">EKONG SAMPSON CONNECT</span><p>Documenting Service. Connecting Communities. Tracking Progress.</p></div><div class="footer-meta"><a href="admin.html">Project team sign-in</a><br>Public service prototype</div></div></footer>
+ <p>BUILD UNDER THE SUPERVISION OF IDORENYIN INOH</p>
+  <script src="site.js"></script>
+</body>
+</html>

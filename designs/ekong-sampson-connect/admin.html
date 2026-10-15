@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Project team sign-in | Ekong Sampson Connect</title>
+  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="admin.css">
+  <script src="admin.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="utility"><div class="wrap"><span><strong>EKONG SAMPSON CONNECT</strong></span><a href="/">Back to the public site</a></div></div>
+  <main class="admin-main wrap" id="main">
+    <header class="admin-heading">
+      <span class="section-kicker">Project tracker</span>
+      <h1>Project team portal</h1>
+      <p>Authorised senator and project-team staff can publish project updates for the public tracker. Published status and project details are supplied by the team and are not independently verified by this portal.</p>
+    </header>
+
+    <p class="admin-message" id="admin-message" role="status" aria-live="polite"></p>
+
+    <section class="admin-panel" id="login-panel" aria-labelledby="login-heading">
+      <h2 id="login-heading">Staff sign-in</h2>
+      <form id="login-form">
+        <label for="login-username">Username or email</label>
+        <input id="login-username" name="username" type="text" autocomplete="username" placeholder="Enter your username or email address" required>
+        <label for="login-password">Password</label>
+        <div class="password-control">
+          <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+          <button class="password-toggle" id="password-toggle" type="button" aria-controls="login-password" aria-pressed="false">Show</button>
+        </div>
+        <button class="button" type="submit">Sign in</button>
+      </form>
+    </section>
+
+    <section class="admin-workspace hidden" id="workspace" aria-labelledby="workspace-heading">
+      <div class="admin-workspace-heading">
+        <div><h2 id="workspace-heading">Project updates</h2><p>Signed in as <strong id="signed-in-user"></strong></p></div>
+        <button class="button outline small" id="logout-button" type="button">Sign out</button>
+      </div>
+      <div class="admin-grid">
+        <form class="admin-panel" id="project-form">
+          <h3>Publish a project</h3>
+          <label for="project-title">Project title</label>
+          <input id="project-title" name="title" maxlength="120" required>
+          <label for="project-lga">Local government area</label>
+          <select id="project-lga" name="lga" required>
+            <option value="">Select an LGA</option>
+            <option value="eket">Eket</option><option value="esit-eket">Esit Eket</option>
+            <option value="ibeno">Ibeno</option><option value="onna">Onna</option>
+            <option value="mkpat-enin">Mkpat-Enin</option><option value="ikot-abasi">Ikot Abasi</option>
+            <option value="eastern-obolo">Eastern Obolo</option><option value="oron">Oron</option>
+            <option value="mbo">Mbo</option><option value="okobo">Okobo</option>
+            <option value="udung-uko">Udung Uko</option><option value="urue-offong-oruko">Urue-Offong/Oruko</option>
+          </select>
+          <label for="project-community">Community</label>
+          <input id="project-community" name="community" maxlength="120" required>
+          <div class="admin-form-row">
+            <div><label for="project-sector">Sector</label><select id="project-sector" name="sector" required>
+              <option value="education">Education</option><option value="health">Health</option>
+              <option value="infrastructure">Infrastructure</option><option value="water">Water</option>
+              <option value="agriculture">Agriculture</option><option value="other">Other</option>
+            </select></div>
+            <div><label for="project-year">Year</label><input id="project-year" name="year" type="number" min="1950" max="2099" required></div>
+          </div>
+          <label for="project-status">Project status</label>
+          <select id="project-status" name="status" required>
+            <option value="proposal">Proposal</option><option value="ongoing">Ongoing</option><option value="completed">Completed</option>
+          </select>
+          <label for="project-description">Description</label>
+          <textarea id="project-description" name="description" maxlength="2000" rows="5" required></textarea>
+          <label for="project-funding">Funding information <span>(optional)</span></label>
+          <input id="project-funding" name="funding" maxlength="240">
+          <label for="project-evidence">Source or evidence <span>(optional)</span></label>
+          <textarea id="project-evidence" name="evidence" maxlength="500" rows="3"></textarea>
+          <label for="project-image">Project image <span>(optional, JPEG/PNG/WebP, max 5 MB)</span></label>
+          <input id="project-image" name="image" type="file" accept="image/jpeg,image/png,image/webp">
+          <button class="button" type="submit">Publish project update</button>
+         </form>
+          <section class="admin-panel" aria-labelledby="manage-heading">
+            <h3 id="manage-heading">Manage published updates</h3>
+            <p class="notice">Unpublishing removes an update from the public tracker but keeps it in the staff list.</p>
+            <div id="admin-project-list" class="admin-project-list"></div>
+          </section>
+          <section class="admin-panel" aria-labelledby="issues-heading">
+            <h3 id="issues-heading">Community issues</h3>
+            <p class="notice">Issues submitted by community members for review.</p>
+            <div id="admin-issue-list" class="admin-issue-list"></div>
+          </section>
+        </div>
+   </section>
+ </main>
+ 
+ <!-- Edit Issue Modal -->
+ <div class="modal hidden" id="edit-issue-modal" aria-hidden="true">
+   <div class="modal-background"></div>
+   <div class="modal-card">
+     <header class="modal-card-head">
+       <p class="modal-card-title">Edit Issue</p>
+       <button class="delete" aria-label="close" id="edit-issue-close"></button>
+     </header>
+     <section class="modal-card-body">
+       <form id="edit-issue-form">
+         <div class="field">
+           <label class="label">Name</label>
+           <div class="control">
+             <input class="input" type="text" id="edit-issue-name" name="name" maxlength="120" required>
+           </div>
+         </div>
+         <div class="field">
+           <label class="label">LGA</label>
+           <div class="control">
+             <select id="edit-issue-lga" name="lga" required>
+               <option value="">Select an LGA</option>
+               <option value="eket">Eket</option><option value="esit-eket">Esit Eket</option>
+               <option value="ibeno">Ibeno</option><option value="onna">Onna</option>
+               <option value="mkpat-enin">Mkpat-Enin</option><option value="ikot-abasi">Ikot Abasi</option>
+               <option value="eastern-obolo">Eastern Obolo</option><option value="oron">Oron</option>
+               <option value="mbo">Mbo</option><option value="okobo">Okobo</option>
+               <option value="udung-uko">Udung Uko</option><option value="urue-offong-oruko">Urue-Offong/Oruko</option>
+             </select>
+           </div>
+         </div>
+         <div class="field">
+           <label class="label">Community</label>
+           <div class="control">
+             <input class="input" type="text" id="edit-issue-community" name="community" maxlength="120" required>
+           </div>
+         </div>
+         <div class="field">
+           <label class="label">Category</label>
+           <div class="control">
+             <select id="edit-issue-category" name="category" required>
+               <option value="">Select category</option>
+               <option value="infrastructure">Infrastructure</option>
+               <option value="education">Education</option>
+               <option value="health">Health</option>
+               <option value="security">Security</option>
+               <option value="other">Other</option>
+             </select>
+           </div>
+         </div>
+         <div class="field">
+           <label class="label">Message</label>
+           <div class="control">
+             <textarea class="textarea" id="edit-issue-message" name="message" maxlength="3000" required></textarea>
+           </div>
+         </div>
+         <div class="field">
+           <label class="label">Status</label>
+           <div class="control">
+             <select id="edit-issue-status" name="status" required>
+               <option value="new">New</option>
+               <option value="in progress">In Progress</option>
+               <option value="resolved">Resolved</option>
+             </select>
+           </div>
+         </div>
+       </form>
+     </section>
+     <footer class="modal-card-foot">
+       <button class="button" id="edit-issue-cancel">Cancel</button>
+       <button class="button is-success" id="edit-issue-save">Save Changes</button>
+     </footer>
+   </div>
+ </div>
+  </body>
+</html>
