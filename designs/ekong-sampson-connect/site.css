@@ -180,6 +180,11 @@ h1 span { color: #d6b978; font-style: italic; }
 /* ── Record grid / About ── */
 .record-grid { margin-top:1rem; }
 .record-statement { font-size:1.05rem; max-width:720px; }
+.factsheet-list { margin:.8rem 0 1.6rem; padding-left:1.2rem; max-width:760px; }
+.factsheet-list li { margin-bottom:.45rem; font-size:.9rem; color:#39483d; }
+.factsheet-list li::marker { color:var(--brass); }
+.factsheet-note { color:var(--muted); font-size:.8rem; font-style:italic; }
+.factsheet h4 { font: 1.15rem var(--serif); color:var(--forest); margin:1.4rem 0 .4rem; }
 .glance-list { display:grid; grid-template-columns:170px 1fr; gap:.55rem 1rem; font-size:.86rem; margin:1rem 0 1.5rem; max-width:760px; }
 .glance-list dt { color:var(--forest); font-weight:700; font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; }
 .glance-list dd { margin:0; color:#39483d; }
