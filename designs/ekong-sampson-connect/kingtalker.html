@@ -1,0 +1,449 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>King Talker - Senator Ekong Sampson</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #172033;
+}
+
+header {
+    background: #102b46;
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+    border-bottom: 5px solid #e5b34b;
+}
+
+header h1 {
+    margin: 0 0 8px;
+}
+
+main {
+    max-width: 950px;
+    margin: 25px auto;
+    padding: 0 15px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px #0000000c;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin: 14px 0 6px;
+}
+
+select, input {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+}
+
+button {
+    border: none;
+    border-radius: 7px;
+    padding: 11px 15px;
+    margin: 5px 3px 5px 0;
+    cursor: pointer;
+    font-weight: bold;
+    background: #176b87;
+    color: white;
+}
+
+button:hover {
+    opacity: .85;
+}
+
+.stop {
+    background: #b91c1c;
+}
+
+.secondary {
+    background: #334155;
+}
+
+#content {
+    white-space: pre-wrap;
+    line-height: 1.8;
+}
+
+#status {
+    color: #176b87;
+    font-weight: bold;
+}
+
+.note {
+    background: #fff7df;
+    padding: 12px;
+    border-left: 4px solid #e5b34b;
+    border-radius: 5px;
+    line-height: 1.5;
+}
+
+@media(max-width: 600px) {
+    .card {
+        padding: 15px;
+    }
+
+    button {
+        padding: 10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>King Talker</h1>
+    <p>Senator Ekong Sampson, Ph.D.</p>
+    <p>Profile and Constituency Projects</p>
+</header>
+
+<main>
+
+<div class="card">
+    <h2>Speech Settings</h2>
+
+    <label for="language">Choose Language</label>
+    <select id="language">
+        <option value="en">English</option>
+        <option value="ibb">Ibibio</option>
+        <option value="ekid">Ekid</option>
+        <option value="oro">Oro</option>
+    </select>
+
+    <label for="section">Choose Section</label>
+    <select id="section">
+        <option value="profile">Senator's Biography</option>
+        <option value="completed">Completed Projects</option>
+        <option value="ongoing">Ongoing Projects</option>
+        <option value="upcoming">Projects About to Commence</option>
+    </select>
+
+    <label for="search">Search the selected section</label>
+    <input id="search" type="search"
+           placeholder="Search for a name or project...">
+
+    <label for="speed">
+        Speaking Speed: <span id="speedValue">1.0</span>x
+    </label>
+    <input id="speed" type="range"
+           min="0.6" max="1.4" step="0.1" value="1">
+
+    <p>
+        <button onclick="speak()">▶ Speak</button>
+        <button class="secondary" onclick="pauseSpeech()">Ⅱ Pause</button>
+        <button class="secondary" onclick="resumeSpeech()">▶ Resume</button>
+        <button class="stop" onclick="stopSpeech()">■ Stop</button>
+    </p>
+
+    <p id="status" aria-live="polite">Ready to speak.</p>
+
+    <div class="note" id="languageNote">
+        English is ready. Select a section and press Speak.
+    </div>
+</div>
+
+<div class="card">
+    <h2 id="heading">Senator Ekong Sampson's Profile</h2>
+    <div id="content"></div>
+</div>
+
+</main>
+
+<script>
+const profile = `A Concise Profile of Senator Ekong Sampson, Ph.D.
+
+Senator Ekong Sampson, Ph.D, is an accomplished journalist, author, poet, publisher, legal practitioner and public servant whose career has been defined by intellectual depth, impactful leadership and an enduring commitment to public service and human capital development.
+
+Born on September 21, 1966, Senator Sampson hails from Mkpat Enin Local Government Area of Akwa Ibom State.
+
+He obtained an Ordinary National Diploma in Mass Communication with Distinction from The Polytechnic, Calabar, in 1986. He earned his LL.B degree from the University of Cross River State in 1990, obtained his Barrister-at-Law qualification in 1991, and earned an LL.M degree from the University of Lagos in 1999. In 2020, he obtained a Doctor of Philosophy in Law from the University of Calabar.
+
+Between 1992 and 1996, he worked with Pat Okupa and Company in Benin City. He later became Managing Partner of Abalu, Bobga, Sampson and Company in Lagos.
+
+From 2000 to 2003, he served as Chief Legislative and Special Assistant to Senator Udoma Udo Udoma.
+
+In 2003, he was elected Councillor and Chairman of Mkpat Enin Local Government Area. He later represented Mkpat Enin State Constituency in the Akwa Ibom State House of Assembly from 2007 to 2015.
+
+From 2015 to 2020, he served in the Akwa Ibom State Executive Council as Commissioner in several strategic portfolios and as Special Adviser.
+
+Senator Sampson supports education and intellectual development. He sponsors the monthly meeting of the Uyo Book Club and established Excellence College, Mkpat Enin, in 2014.
+
+He has facilitated employment opportunities for Akwa Ibom youths and supported people through scholarships, grants, vehicles, medical assistance and welfare packages.
+
+In February 2023, he was elected to represent Akwa Ibom South Senatorial District in the Tenth Senate of the Federal Republic of Nigeria.
+
+He serves as Chairman of the Senate Committee on Solid Minerals Development, Vice Chairman of the Senate Committee on Basic and Secondary Education, and Chairman of the Akwa Ibom National Assembly Caucus.
+
+He has sponsored bills and motions concerning the Federal University of Technology, Ikot Abasi, the Federal University of Medical Sciences, Eket, the Solid Minerals Development Corporation and the South South Development Commission, among others.
+
+Senator Ekong Sampson is married to Mrs. Matina Sampson, and they have children.`;
+
+const completed = `Completed Projects.
+
+Construction of ICT and CBT centres at Excellence College, Ikot Unya; St Vincent Secondary School, Oti-oro, Okobo; and St Francis Secondary School, Ikot Ataku, Eket.
+
+Construction of staff quarters at Excellence College, Ikot Unya.
+
+Construction of a doctor's call room at Immanuel Hospital, Eket.
+
+Provision of a one hundred million naira grant to Akwa Ibom South students.
+
+Provision of solar-powered water boreholes in Mkpat Enin village, Ikot Ekpe, Ekpuk Town and Ikot Unya.
+
+Provision of solar-powered water projects in Idua Assang, Oron.
+
+Provision of solar-powered streetlights in Uquo, Esit Eket; Eyibia, Udung Uko; Ikot Unya; Ikot Mkpeye; and Iko Town, Eastern Obolo.
+
+Reactivation of electricity in Eyubiasang, Urueffong Oruko.
+
+Electricity extension and provision of a five hundred KVA transformer in Ikot Akpandem, Okon-Eket.
+
+Opening of rural roads in Utu Idim, Asak Ikang, Mbo; Ikot Mbong, Onna; and Ikot Unya, Mkpat Enin.
+
+Purchase and distribution of fertilizers and farm seedlings to farmers.
+
+Training and empowerment of selected youths and women in ICT, media, cosmetology, paint making, barbing, hair dressing and sand mining.
+
+Training and advocacy for youths and women.
+
+Sensitization and capacity building on mining business.
+
+Capacity development training for media professionals, conducted twice.`;
+
+const ongoing = `Ongoing Projects.
+
+Construction of a school block at the Federal University of Technology, Ikot Abasi.
+
+Erosion control project in Ekeya, Okobo Local Government Area.
+
+Construction of Ikot Ekpe to Ikot Unya Road, facilitated through NDDC.
+
+Construction of a medical facility at General Hospital, Ikot Abasi.`;
+
+const upcoming = `Projects About to Commence.
+
+Construction of a medical facility at General Hospital, Iquita, Oron.
+
+Construction of Ikot Unya to Ikot Umiang Junction Road, Mkpat Enin.
+
+Fencing of Excellence College, Ikot Unya.
+
+Fencing of St Vincent Secondary School, Oti-oro, Okobo.
+
+Construction of a hostel at Excellence College, Ikot Unya.
+
+Construction of a science laboratory at Community Technical College, Eyokpifie, Urueffong Oruko.
+
+Construction of staff quarters at Secondary School, Udung Uko.
+
+Construction of a school block at Secondary School, Amadaka, Eastern Obolo.
+
+Provision of solar-powered water projects in Uda, Ikot Essen, Nung Ukim Three, Ukam, Ikot Akpaden, Ete and Ikot Ubo Akama.
+
+Construction of a classroom block at Government School, Ikot Ekpenyong.
+
+Free medical services for selected communities in Akwa Ibom South.
+
+Provision of streetlights in selected communities in Ibeno, Edo Etti and Edemaya.
+
+Rehabilitation of electricity in Ikot Unya and Ikot Umiang.
+
+Construction of a classroom block at Methodist Primary School, Ewangga.
+
+Training of youths in mining security.
+
+Opening of access roads to mining locations in Akwa Ibom.
+
+Installation of a solar-powered borehole in Ndon Eyo, Onna.
+
+Construction of an ICT centre in Ikot Udo Essang, Onna.
+
+Construction of lawn tennis and handball courts at Excellence College.
+
+Construction of sports facilities at St Francis Secondary School, Ikot Ataku, and St Vincent Secondary School, Oti-oro.
+
+Construction of a health facility at Cottage Hospital, Ibeno.
+
+Construction of a three-in-one classroom block at St Leo Primary School, Okobo Ebughu, Mbo.
+
+Construction of staff quarters at Girls High School, Ikot Ibiok, Eket.
+
+Construction of an educational facility at Community School, Esit Eket.
+
+Reactivation of electricity facilities in parts of Ikpa Ikono, Mkpat Enin, and Ikot Ataku, Eket.
+
+Equipping of ICT centres at Excellence College, St Francis Secondary School and St Vincent Secondary School.
+
+Construction of a police station near Excellence College, Ikot Unya.
+
+Construction of an administration block at Excellence College, Ikot Unya.
+
+Construction of a community centre in Ndon Eyo, Onna.
+
+Construction of a school block in Uda, Mbo, among other projects.`;
+
+const data = {
+    profile: {
+        title: "Senator Ekong Sampson's Profile",
+        text: profile
+    },
+    completed: {
+        title: "Completed Projects",
+        text: completed
+    },
+    ongoing: {
+        title: "Ongoing Projects",
+        text: ongoing
+    },
+    upcoming: {
+        title: "Projects About to Commence",
+        text: upcoming
+    }
+};
+
+const language = document.getElementById("language");
+const section = document.getElementById("section");
+const content = document.getElementById("content");
+const heading = document.getElementById("heading");
+const statusText = document.getElementById("status");
+const languageNote = document.getElementById("languageNote");
+const search = document.getElementById("search");
+const speed = document.getElementById("speed");
+
+function render() {
+    const selected = data[section.value];
+    heading.textContent = selected.title;
+
+    const query = search.value.trim().toLowerCase();
+    const lines = selected.text.split("\n");
+
+    content.textContent = query
+        ? lines.filter(line =>
+            line.toLowerCase().includes(query)
+          ).join("\n")
+        : selected.text;
+}
+
+section.addEventListener("change", () => {
+    search.value = "";
+    stopSpeech();
+    render();
+});
+
+search.addEventListener("input", render);
+
+speed.addEventListener("input", () => {
+    document.getElementById("speedValue").textContent =
+        Number(speed.value).toFixed(1);
+});
+
+language.addEventListener("change", () => {
+    stopSpeech();
+
+    if (language.value === "en") {
+        languageNote.textContent =
+            "English source text is ready for speech.";
+    } else {
+        const names = {
+            ibb: "Ibibio",
+            ekid: "Ekid",
+            oro: "Oro"
+        };
+
+        languageNote.textContent =
+            names[language.value] +
+            " selected. Add a verified translation to speak this content accurately in that language.";
+    }
+});
+
+function speak() {
+    if (!("speechSynthesis" in window)) {
+        statusText.textContent =
+            "Your browser does not support text-to-speech.";
+        return;
+    }
+
+    if (language.value !== "en") {
+        statusText.textContent =
+            "A verified translation is required before speaking this section in the selected language.";
+        return;
+    }
+
+    stopSpeech();
+
+    const text = content.textContent.trim();
+
+    if (!text) {
+        statusText.textContent = "There is no text to read.";
+        return;
+    }
+
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "en-NG";
+    speech.rate = Number(speed.value);
+
+    speech.onstart = () => {
+        statusText.textContent = "Speaking...";
+    };
+
+    speech.onend = () => {
+        statusText.textContent = "Finished speaking.";
+    };
+
+    speech.onerror = () => {
+        statusText.textContent =
+            "Speech failed. Try another browser voice.";
+    };
+
+    speechSynthesis.speak(speech);
+}
+
+function pauseSpeech() {
+    if ("speechSynthesis" in window &&
+        speechSynthesis.speaking) {
+        speechSynthesis.pause();
+        statusText.textContent = "Speech paused.";
+    }
+}
+
+function resumeSpeech() {
+    if ("speechSynthesis" in window &&
+        speechSynthesis.paused) {
+        speechSynthesis.resume();
+        statusText.textContent = "Speech resumed.";
+    }
+}
+
+function stopSpeech() {
+    if ("speechSynthesis" in window) {
+        speechSynthesis.cancel();
+    }
+    statusText.textContent = "Speech stopped.";
+}
+
+render();
+</script>
+
+</body>
+</html>

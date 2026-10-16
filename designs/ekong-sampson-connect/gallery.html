@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ekong Sampson Connect - Gallery</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+    }
+    header {
+      background: #0a3d62;
+      color: white;
+      text-align: center;
+      padding: 25px 10px;
+    }
+    header h1 { margin: 0; font-size: 28px; }
+    header p { margin: 5px 0 0; }
+
+    .esc-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .esc-card {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .esc-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .esc-card img {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+    .esc-card .esc-caption {
+      padding: 14px;
+      text-align: center;
+      font-weight: bold;
+      color: #0a3d62;
+      font-size: 16px;
+    }
+    .esc-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.88);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .esc-modal img {
+      max-width: 90%;
+      max-height: 85vh;
+      border-radius: 12px;
+      border: 4px solid white;
+      object-fit: contain;
+    }
+    .esc-close {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: white;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #0a3d62;
+      color: white;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Ekong Sampson Connect</h1>
+  <p>Click any image to view full</p>
+</header>
+
+<div class="esc-gallery">
+  <div class="esc-card" onclick="openEscModal('./assets/ekong-background.jpg')">
+    <img src="./assets/ekong-background.jpg" alt="Senator Ekong Sampson">
+    <div class="esc-caption">Senator Ekong Sampson</div>
+  </div>
+  <div class="esc-card" onclick="openEscModal('./assets/file_0004748243a4c564b70a10d030.jpg.jpeg')">
+    <img src="./assets/file_0000000004748243a4c564b70a10d030.jpg.jpeg" alt="Gallery 1">
+    <div class="esc-caption"></div>
+  </div>
+  <div class="esc-card" onclick="openEscModal('./assets/image.png')">
+    <img src="./assets/image.png" alt="Gallery 2">
+    <div class="esc-caption">senator</div>
+  </div>
+  <div class="esc-card" onclick="openEscModal('./assets/IMG-20260915-WA0022.jpg.jpeg')">
+    <img src="./assets/IMG-20260915-WA0022.jpg.jpeg" alt="Gallery 3">
+    <div class="esc-caption"></div>
+  </div>
+  <div class="esc-card" onclick="openEscModal('./assets/IMG-20260920-WA0025.jpg.jpeg')">
+    <img src="./assets/IMG-20260920-WA0025.jpg.jpeg" alt="Gallery 4">
+    <div class="esc-caption"></div>
+  </div>
+  <div class="esc-card" onclick="openEscModal('./assets/IMG-20260921-WA0023.jpg.jpeg')">
+    <img src="./assets/IMG-20260921-WA0023.jpg.jpeg" alt="Gallery 5">
+    <div class="esc-caption"></div>
+  </div>
+  <div class="esc-card" onclick="openEscModal('./assets/IMG-20260922-WA0024.jpg.jpeg')">
+    <img src="./assets/IMG-20260922-WA0024.jpg.jpeg" alt="Gallery 6">
+    <div class="esc-caption"></div>
+  </div>
+</div>
+
+<div id="escModal" class="esc-modal" onclick="closeEscModal()">
+  <span class="esc-close">&times;</span>
+  <img id="escModalImg" src="" alt="Enlarged View">
+</div>
+
+<footer>
+  &copy; 2026 Ekong Sampson Connect | Akwa Ibom South
+</footer>
+
+<script>
+  function openEscModal(src) {
+    document.getElementById('escModalImg').src = src;
+    document.getElementById('escModal').style.display = 'flex';
+  }
+  function closeEscModal() {
+    document.getElementById('escModal').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
