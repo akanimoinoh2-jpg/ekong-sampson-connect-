@@ -470,18 +470,164 @@ app.post("/api/admin/projects", requireSameOrigin, requireStaff, upload.single("
   }
 });
 
-app.patch("/api/admin/projects/:id", requireSameOrigin, requireStaff, (req, res) => {
-  if (typeof req.body.published !== "boolean") {
-    res.status(400).json({ error: "Published must be true or false." });
-    return;
+app.get("/api/admin/projects/:id", requireSameOrigin, requireStaff, (req, res) => {
+  try {
+    const row = database.prepare("SELECT * FROM projects WHERE id = ?")
+      .get(req.params.id);
+    
+    if (!row) {
+      res.status(404).json({ error: "Project not found." });
+      return;
+    }
+    
+    res.json({ project: formatProject(row) });
+  } catch (error) {
+    console.error("Could not fetch project:", error);
+    res.status(500).json({ error: "The project could not be retrieved. Please try again." });
   }
-  const result = database.prepare("UPDATE projects SET published = ? WHERE id = ?")
-    .run(req.body.published ? 1 : 0, req.params.id);
-  if (result.changes === 0) {
-    res.status(404).json({ error: "Project not found." });
-    return;
+});
+
+// Update a project (full update)
+app.patch("/api/admin/projects/:id", requireSameOrigin, requireStaff, upload.single("image"), async (req, res) => {
+  let imagePath = null;
+  let imagePathToCleanup = null;
+  
+  try {
+    // Get current project to preserve existing values/image if not provided
+    const currentRow = database.prepare("SELECT * FROM projects WHERE id = ?")
+      .get(req.params.id);
+
+    if (!currentRow) {
+      res.status(404).json({ error: "Project not found." });
+      return;
+    }
+
+    const body = req.body || {};
+    const title = body.title !== undefined ? String(body.title) : currentRow.title;
+    const lga = body.lga !== undefined ? String(body.lga) : currentRow.lga;
+    const community = body.community !== undefined ? String(body.community) : currentRow.community;
+    const sector = body.sector !== undefined ? String(body.sector) : currentRow.sector;
+    const year = body.year !== undefined ? String(body.year) : String(currentRow.year);
+    const status = body.status !== undefined ? String(body.status) : currentRow.status;
+    const description = body.description !== undefined ? String(body.description) : currentRow.description;
+    const funding = body.funding !== undefined ? String(body.funding) : (currentRow.funding || "");
+    const evidence = body.evidence !== undefined ? String(body.evidence) : (currentRow.evidence || "");
+    const published = body.published !== undefined ? body.published : Boolean(currentRow.published);
+
+    // Handle file upload if present
+    if (req.file) {
+      const imageType = imageTypes.get(req.file.mimetype);
+      if (!imageType.signature(req.file.buffer)) {
+        throw new Error("The uploaded file does not match its declared image type.");
+      }
+      imagePath = path.join(uploadsDirectory, `${crypto.randomUUID()}${imageType.extension}`);
+      await fs.promises.writeFile(imagePath, req.file.buffer, { flag: "wx" });
+    }
+
+    // Validate fields
+    if (!title || title.trim() === "") throw new Error("Title is required.");
+    if (!lga || !allowedLgas.has(lga)) throw new Error("Select a valid LGA.");
+    if (!community || community.trim() === "") throw new Error("Community is required.");
+    if (!sector || !allowedSectors.has(sector)) throw new Error("Select a valid sector.");
+    if (!year || !/^\d{4}$/.test(String(year)) || Number(year) < 1950 || Number(year) > 2099) 
+      throw new Error("Enter a valid four-digit year between 1950 and 2099.");
+    if (!status || !allowedStatuses.has(status)) throw new Error("Select a valid project status.");
+    if (!description || description.trim() === "") throw new Error("Description is required.");
+    
+    // Determine final image path
+    const finalImagePath = imagePath || currentRow.image_path;
+    
+    // Update the project
+    const result = database.prepare(`
+      UPDATE projects 
+      SET title = ?, lga = ?, community = ?, sector = ?, year = ?, 
+          status = ?, description = ?, funding = ?, evidence = ?, 
+          image_path = ?, published = ?
+      WHERE id = ?
+    `).run(
+      title.trim(),
+      lga,
+      community.trim(),
+      sector,
+      Number(year),
+      status,
+      description.trim(),
+      funding || null,
+      evidence || null,
+      finalImagePath,
+      Boolean(published) ? 1 : 0,
+      req.params.id
+    );
+    
+    // Clean up old image if a new one was uploaded
+    if (imagePath && currentRow.image_path && imagePath !== currentRow.image_path) {
+      const oldImagePath = path.join(uploadsDirectory, path.basename(currentRow.image_path));
+      await fs.promises.unlink(oldImagePath).catch(() => {
+        // Ignore cleanup errors
+      });
+    }
+    
+    if (result.changes === 0) {
+      res.status(404).json({ error: "Project not found." });
+      return;
+    }
+    
+    // Get the updated project
+    const row = database.prepare("SELECT * FROM projects WHERE id = ?")
+      .get(req.params.id);
+    
+    res.json({ project: formatProject(row) });
+  } catch (error) {
+    // Clean up uploaded image if there was an error
+    if (imagePath) {
+      await fs.promises.unlink(imagePath).catch(() => {
+        // Ignore cleanup errors
+      });
+    }
+    
+    if (error instanceof Error && !error.code) {
+      res.status(400).json({ error: error.message });
+      return;
+    }
+    console.error("Could not update project:", error);
+    res.status(500).json({ error: "The project could not be updated. Please try again." });
   }
-  res.json({ updated: true });
+});
+
+// Delete a project
+app.delete("/api/admin/projects/:id", requireSameOrigin, requireStaff, (req, res) => {
+  try {
+    // Get the project first to clean up associated files
+    const row = database.prepare("SELECT image_path FROM projects WHERE id = ?")
+      .get(req.params.id);
+      
+    if (!row) {
+      res.status(404).json({ error: "Project not found." });
+      return;
+    }
+    
+    // Delete the project from database
+    const result = database.prepare("DELETE FROM projects WHERE id = ?")
+      .run(req.params.id);
+      
+    if (result.changes === 0) {
+      res.status(404).json({ error: "Project not found." });
+      return;
+    }
+    
+    // Clean up associated image file if it exists
+    if (row.image_path) {
+      const imagePath = path.join(uploadsDirectory, path.basename(row.image_path));
+      fs.promises.unlink(imagePath).catch(() => {
+        // Ignore cleanup errors
+      });
+    }
+    
+    res.json({ deleted: true });
+  } catch (error) {
+    console.error("Could not delete project:", error);
+    res.status(500).json({ error: "The project could not be deleted. Please try again." });
+  }
 });
 
 app.get("/admin", (req, res) => res.sendFile(path.join(siteDirectory, "admin.html")));

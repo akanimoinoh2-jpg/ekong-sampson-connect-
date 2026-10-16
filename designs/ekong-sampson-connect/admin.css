@@ -33,6 +33,11 @@
 .admin-project h4 { margin: 0 0 .35rem; color: var(--forest); }
 .admin-project p { margin: .25rem 0; color: var(--muted); font-size: .82rem; }
 .admin-project .button { margin-top: .55rem; }
+.admin-project-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
 .admin-issue { padding: 1rem; border: 1px solid var(--line); background: #fff; }
 .admin-issue h4 { margin: 0 0 .35rem; color: var(--forest); }
 .admin-issue p { margin: .25rem 0; color: var(--muted); font-size: .82rem; }

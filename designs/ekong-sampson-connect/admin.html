@@ -93,26 +93,26 @@
    </section>
  </main>
  
- <!-- Edit Issue Modal -->
- <div class="modal hidden" id="edit-issue-modal" aria-hidden="true">
+ <!-- Edit Project Modal -->
+ <div class="modal hidden" id="edit-project-modal" aria-hidden="true">
    <div class="modal-background"></div>
    <div class="modal-card">
      <header class="modal-card-head">
-       <p class="modal-card-title">Edit Issue</p>
-       <button class="delete" aria-label="close" id="edit-issue-close"></button>
+       <p class="modal-card-title">Edit Project</p>
+       <button class="delete" aria-label="close" id="edit-project-close"></button>
      </header>
      <section class="modal-card-body">
-       <form id="edit-issue-form">
+       <form id="edit-project-form" enctype="multipart/form-data">
          <div class="field">
-           <label class="label">Name</label>
+           <label class="label">Project title</label>
            <div class="control">
-             <input class="input" type="text" id="edit-issue-name" name="name" maxlength="120" required>
+             <input class="input" type="text" id="edit-project-title" name="title" maxlength="120" required>
            </div>
          </div>
          <div class="field">
-           <label class="label">LGA</label>
+           <label class="label">Local government area</label>
            <div class="control">
-             <select id="edit-issue-lga" name="lga" required>
+             <select id="edit-project-lga" name="lga" required>
                <option value="">Select an LGA</option>
                <option value="eket">Eket</option><option value="esit-eket">Esit Eket</option>
                <option value="ibeno">Ibeno</option><option value="onna">Onna</option>
@@ -126,14 +126,108 @@
          <div class="field">
            <label class="label">Community</label>
            <div class="control">
+             <input class="input" type="text" id="edit-project-community" name="community" maxlength="120" required>
+           </div>
+         </div>
+         <div class="admin-form-row">
+           <div>
+             <label class="label">Sector</label>
+             <div class="control">
+               <select id="edit-project-sector" name="sector" required>
+                 <option value="education">Education</option><option value="health">Health</option>
+                 <option value="infrastructure">Infrastructure</option><option value="water">Water</option>
+                 <option value="agriculture">Agriculture</option><option value="other">Other</option>
+               </select>
+             </div>
+           </div>
+           <div>
+             <label class="label">Year</label>
+             <div class="control">
+               <input class="input" type="number" id="edit-project-year" name="year" min="1950" max="2099" required>
+             </div>
+           </div>
+         </div>
+         <div class="field">
+           <label class="label">Project status</label>
+           <div class="control">
+             <select id="edit-project-status" name="status" required>
+               <option value="proposal">Proposal</option><option value="ongoing">Ongoing</option><option value="completed">Completed</option>
+             </select>
+           </div>
+         </div>
+         <div class="field">
+           <label class="label">Description</label>
+           <div class="control">
+             <textarea class="textarea" id="edit-project-description" name="description" maxlength="2000" rows="5" required></textarea>
+           </div>
+         </div>
+         <div class="field">
+           <label class="label">Funding information <span>(optional)</span></label>
+           <div class="control">
+             <input class="input" type="text" id="edit-project-funding" name="funding" maxlength="240">
+           </div>
+         </div>
+         <div class="field">
+           <label class="label">Source or evidence <span>(optional)</span></label>
+           <div class="control">
+             <textarea class="textarea" id="edit-project-evidence" name="evidence" maxlength="500" rows="3"></textarea>
+           </div>
+         </div>
+         <div class="field">
+           <label class="label">Project image <span>(optional, JPEG/PNG/WebP, max 5 MB)</span></label>
+           <div class="control">
+             <input class="input" type="file" id="edit-project-image" name="image" accept="image/jpeg,image/png,image/webp">
+           </div>
+         </div>
+       </form>
+     </section>
+     <footer class="modal-card-foot">
+       <button class="button" id="edit-project-cancel">Cancel</button>
+       <button class="button is-success" id="edit-project-save">Save Changes</button>
+     </footer>
+   </div>
+ </div>
+
+ <!-- Edit Issue Modal -->
+ <div class="modal hidden" id="edit-issue-modal" aria-hidden="true">
+   <div class="modal-background"></div>
+   <div class="modal-card">
+     <header class="modal-card-head">
+       <p class="modal-card-title">Edit Issue</p>
+       <button class="delete" aria-label="close" id="edit-issue-close"></button>
+     </header>
+     <section class="modal-card-body">
+       <form id="edit-issue-form">
+         <div class="field">
+           <label class="label" for="edit-issue-name">Name</label>
+           <div class="control">
+             <input class="input" type="text" id="edit-issue-name" name="name" maxlength="120">
+           </div>
+         </div>
+         <div class="field">
+           <label class="label" for="edit-issue-lga">Local government area</label>
+           <div class="control">
+             <select id="edit-issue-lga" name="lga" required>
+               <option value="">Select an LGA</option>
+               <option value="eket">Eket</option><option value="esit-eket">Esit Eket</option>
+               <option value="ibeno">Ibeno</option><option value="onna">Onna</option>
+               <option value="mkpat-enin">Mkpat-Enin</option><option value="ikot-abasi">Ikot Abasi</option>
+               <option value="eastern-obolo">Eastern Obolo</option><option value="oron">Oron</option>
+               <option value="mbo">Mbo</option><option value="okobo">Okobo</option>
+               <option value="udung-uko">Udung Uko</option><option value="urue-offong-oruko">Urue-Offong/Oruko</option>
+             </select>
+           </div>
+         </div>
+         <div class="field">
+           <label class="label" for="edit-issue-community">Community</label>
+           <div class="control">
              <input class="input" type="text" id="edit-issue-community" name="community" maxlength="120" required>
            </div>
          </div>
          <div class="field">
-           <label class="label">Category</label>
+           <label class="label" for="edit-issue-category">Category</label>
            <div class="control">
              <select id="edit-issue-category" name="category" required>
-               <option value="">Select category</option>
                <option value="infrastructure">Infrastructure</option>
                <option value="education">Education</option>
                <option value="health">Health</option>
@@ -143,17 +237,17 @@
            </div>
          </div>
          <div class="field">
-           <label class="label">Message</label>
+           <label class="label" for="edit-issue-message">Message</label>
            <div class="control">
-             <textarea class="textarea" id="edit-issue-message" name="message" maxlength="3000" required></textarea>
+             <textarea class="textarea" id="edit-issue-message" name="message" maxlength="3000" rows="5" required></textarea>
            </div>
          </div>
          <div class="field">
-           <label class="label">Status</label>
+           <label class="label" for="edit-issue-status">Status</label>
            <div class="control">
              <select id="edit-issue-status" name="status" required>
                <option value="new">New</option>
-               <option value="in progress">In Progress</option>
+               <option value="in progress">In progress</option>
                <option value="resolved">Resolved</option>
              </select>
            </div>
