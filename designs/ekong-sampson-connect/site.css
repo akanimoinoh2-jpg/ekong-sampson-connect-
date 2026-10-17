@@ -81,7 +81,7 @@ h1 span { color: #d6b978; font-style: italic; }
 .agenda-strip a:hover { color: var(--forest); text-decoration: underline; }
 .manifesto { background: #eeece2; }
 .manifesto-layout { align-items: start; }
-.manifesto-intro { position: sticky; top: 110px; background: #eeece2; z-index: 2; padding-block: .5rem; }
+.manifesto-intro { position: static; padding-block: .5rem; }
 .manifesto-intro h2 { font: 500 clamp(2.4rem, 4.3vw, 3.7rem)/1.02 var(--serif); letter-spacing: -.045em; margin: .7rem 0 1rem; }
 .manifesto-controls { display: grid; grid-template-columns: minmax(200px, 1fr) 1fr; gap: .75rem; margin: 1.4rem 0; }
 .field-control { display: grid; gap: .3rem; }
@@ -406,4 +406,54 @@ h1 span { color: #d6b978; font-style: italic; }
    border-radius: 8px;
    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
    border: 3px solid var(--brass);
+}
+/* Hero section background image */
+.hero {
+    position: relative;
+    background-image:
+        linear-gradient(
+            rgba(10, 30, 22, 0.78),
+            rgba(10, 30, 22, 0.82)
+        ),
+        url("./images/ekong.jpg");
+    background-size: cover;
+    background-position: center 25%;
+    background-repeat: no-repeat;
+    color: #ffffff;
+    overflow: hidden;
+}
+
+/* Keep the hero content above the background */
+.hero-grid {
+    position: relative;
+    z-index: 1;
+}
+
+/* Make the main heading clear */
+.hero h1 {
+    color: #ffffff;
+}
+
+/* Highlight CONNECT */
+.hero h1 span {
+    color: #d9b56d;
+}
+
+/* Improve paragraph readability */
+.hero-lede,
+.hero-role,
+.tagline-lockup {
+    color: #ffffff;
+}
+
+/* Make the photo area transparent */
+.hero-visual {
+    background: transparent;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .hero {
+        background-position: center top;
+    }
 }

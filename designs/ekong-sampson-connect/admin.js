@@ -1,5 +1,7 @@
 "use strict";
 
+const API_BASE = "https://ekong-sampson-connect-2.onrender.com";
+
 (async () => {
   const byId = (id) => document.getElementById(id);
   const loginPanel = byId("login-panel");
@@ -30,9 +32,8 @@ const showMessage = (text, isError = false) => {
 
   const request = async (url, options = {}) => {
     try {
-      const response = await fetch(url, { credentials: "same-origin", ...options });
+      const response = await fetch(`${API_BASE}${url}`, { credentials: "include", ...options });
       
-      // Handle network errors or non-HTTP responses
       if (!response.ok) {
         let errorMessage = `Request failed (${response.status})`;
         try {
@@ -41,17 +42,14 @@ const showMessage = (text, isError = false) => {
             errorMessage = errorData.error;
           }
         } catch (e) {
-          // If we can't parse JSON, use the status text
           errorMessage = `${errorMessage} - ${response.statusText}`;
         }
         throw new Error(errorMessage);
       }
       
-      // Try to parse JSON response
       const result = await response.json().catch(() => ({}));
       return result;
     } catch (error) {
-      // If this is already a TypeError from fetch (network error), enhance it
       if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
         throw new Error('Unable to connect to server. Please check your network connection and try again.');
       }
@@ -79,13 +77,11 @@ const showMessage = (text, isError = false) => {
         state.textContent = project.published ? "Published on public tracker" : "Unpublished";
         card.append(title, details, state);
         
-        // Action buttons container
         const actions = document.createElement("div");
         actions.style.marginTop = "0.5rem";
         actions.style.display = "flex";
         actions.style.gap = "0.5rem";
         
-        // Edit button
         const editButton = document.createElement("button");
         editButton.className = "button outline small";
         editButton.textContent = "Edit";
@@ -93,7 +89,6 @@ const showMessage = (text, isError = false) => {
           openEditProjectModal(project);
         });
         
-        // Delete button
         const deleteButton = document.createElement("button");
         deleteButton.className = "button outline small";
         deleteButton.textContent = "Delete";
@@ -114,7 +109,6 @@ const showMessage = (text, isError = false) => {
           }
         });
         
-        // Publish/Unpublish button
         const publishButton = document.createElement("button");
         publishButton.className = "button outline small";
         publishButton.type = "button";
@@ -163,7 +157,6 @@ const showMessage = (text, isError = false) => {
         message.style.color = "#333";
         card.append(title, details, message);
         
-        // Show attachment info if exists
         if (issue.attachmentName) {
           const attachmentInfo = document.createElement("p");
           attachmentInfo.style.fontSize = "0.85rem";
@@ -171,7 +164,7 @@ const showMessage = (text, isError = false) => {
           attachmentInfo.style.marginTop = "0.5rem";
           
           const attachmentLink = document.createElement("a");
-          attachmentLink.href = `/api/admin/issues/${issue.id}/attachment`;
+          attachmentLink.href = `${API_BASE}/api/admin/issues/${issue.id}/attachment`;
           attachmentLink.textContent = `Download attachment: ${issue.attachmentName}`;
           attachmentLink.target = "_blank";
           
@@ -185,24 +178,21 @@ const showMessage = (text, isError = false) => {
         status.style.fontWeight = "bold";
         status.style.marginTop = "0.5rem";
         
-        // Color code based on status
         if (issue.status === "new") {
-          status.style.color = "#ff9800"; // Orange
+          status.style.color = "#ff9800";
         } else if (issue.status === "in progress") {
-          status.style.color = "#2196f3"; // Blue
+          status.style.color = "#2196f3";
         } else if (issue.status === "resolved") {
-          status.style.color = "#4caf50"; // Green
+          status.style.color = "#4caf50";
         } else {
-          status.style.color = "#9e9e9e"; // Grey
+          status.style.color = "#9e9e9e";
         }
         
-        // Action buttons container
         const actions = document.createElement("div");
         actions.style.marginTop = "0.5rem";
         actions.style.display = "flex";
         actions.style.gap = "0.5rem";
         
-        // Edit button
         const editButton = document.createElement("button");
         editButton.className = "button outline small";
         editButton.textContent = "Edit";
@@ -210,7 +200,6 @@ const showMessage = (text, isError = false) => {
           openEditIssueModal(issue);
         });
         
-        // Delete button
         const deleteButton = document.createElement("button");
         deleteButton.className = "button outline small";
         deleteButton.textContent = "Delete";
@@ -238,64 +227,44 @@ const showMessage = (text, isError = false) => {
     };
 
     const loadProjects = async () => {
-      console.log('loadProjects: requesting /api/admin/projects');
       try {
         const result = await request("/api/admin/projects");
-        console.log('loadProjects result:', result);
         if (!Array.isArray(result.projects)) throw new Error("The server returned an invalid project list.");
         renderProjects(result.projects);
       } catch (error) {
-        console.error('Error in loadProjects:', error);
         showMessage(`Error loading projects: ${error.message}`, true);
-        throw error; // Re-throw so setSignedIn can handle it
+        throw error;
       }
     };
 
     const loadIssues = async () => {
-      console.log('loadIssues: requesting /api/admin/issues');
       try {
         const result = await request("/api/admin/issues");
-        console.log('loadIssues result:', result);
         if (!Array.isArray(result.issues)) throw new Error("The server returned an invalid issue list.");
         renderIssues(result.issues);
       } catch (error) {
-        console.error('Error in loadIssues:', error);
         showMessage(`Error loading issues: ${error.message}`, true);
-        throw error; // Re-throw so setSignedIn can handle it
+        throw error;
       }
     };
 
     const setSignedIn = async (username) => {
-      console.log('setSignedIn called with username:', username);
       try {
-        // Hide login form, show workspace
         loginPanel.classList.add("hidden");
         workspace.classList.remove("hidden");
         byId("signed-in-user").textContent = username;
-        
-        // Show loading message
         showMessage("Loading your dashboard…");
-        
-        // Load data
-        console.log('About to call loadProjects and loadIssues');
         await loadProjects();
         await loadIssues();
-        console.log('loadProjects and loadIssues completed');
-        
-        // Success message
         showMessage("Dashboard loaded successfully.");
       } catch (error) {
-        console.error('Error in setSignedIn:', error);
         showMessage(`Error loading dashboard: ${error.message}`, true);
-        // Re-show login form in case of error
         loginPanel.classList.remove("hidden");
         workspace.classList.add("hidden");
-        // Clear the username display
         byId("signed-in-user").textContent = '';
       }
     };
 
-    // Edit issue modal functionality
     const editModal = byId("edit-issue-modal");
     const editModalClose = byId("edit-issue-close");
     const editModalCancel = byId("edit-issue-cancel");
@@ -305,15 +274,12 @@ const showMessage = (text, isError = false) => {
 
     const openEditIssueModal = (issue) => {
       currentIssueId = issue.id;
-      // Populate form with issue data
       byId("edit-issue-name").value = issue.name || "";
       byId("edit-issue-lga").value = issue.lga;
       byId("edit-issue-community").value = issue.community;
       byId("edit-issue-category").value = issue.category;
       byId("edit-issue-message").value = issue.message;
       byId("edit-issue-status").value = issue.status;
-      
-      // Show modal
       editModal.classList.remove("hidden");
       editModal.setAttribute("aria-hidden", "false");
     };
@@ -325,7 +291,6 @@ const showMessage = (text, isError = false) => {
       editIssueForm.reset();
     };
 
-    // Modal event listeners
     editModalClose.addEventListener("click", closeEditIssueModal);
     editModalCancel.addEventListener("click", closeEditIssueModal);
     editModal.addEventListener("click", (event) => {
@@ -334,26 +299,21 @@ const showMessage = (text, isError = false) => {
       }
     });
 
-    // Save changes
     editModalSave.addEventListener("click", async () => {
       if (!currentIssueId) return;
-      
       editModalSave.disabled = true;
       editModalSave.textContent = "Saving...";
-      
       try {
         const formData = new FormData(editIssueForm);
         const issueData = {};
         formData.forEach((value, key) => {
           issueData[key] = value;
         });
-        
         await request(`/api/admin/issues/${encodeURIComponent(currentIssueId)}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(issueData)
         });
-        
         showMessage("Issue updated successfully.");
         closeEditIssueModal();
         await loadIssues();
@@ -365,7 +325,6 @@ const showMessage = (text, isError = false) => {
       }
     });
 
-    // Edit project modal functionality
     const projectEditModal = byId("edit-project-modal");
     const projectEditModalClose = byId("edit-project-close");
     const projectEditModalCancel = byId("edit-project-cancel");
@@ -375,7 +334,6 @@ const showMessage = (text, isError = false) => {
 
     const openEditProjectModal = (project) => {
       currentProjectId = project.id;
-      // Populate form with project data
       byId("edit-project-title").value = project.title || "";
       byId("edit-project-lga").value = project.lga;
       byId("edit-project-community").value = project.community;
@@ -385,9 +343,6 @@ const showMessage = (text, isError = false) => {
       byId("edit-project-description").value = project.description || "";
       byId("edit-project-funding").value = project.funding || "";
       byId("edit-project-evidence").value = project.evidence || "";
-      // Note: We don't populate the file input for security reasons
-      
-      // Show modal
       projectEditModal.classList.remove("hidden");
       projectEditModal.setAttribute("aria-hidden", "false");
     };
@@ -399,7 +354,6 @@ const showMessage = (text, isError = false) => {
       projectEditForm.reset();
     };
 
-    // Modal event listeners
     projectEditModalClose.addEventListener("click", closeEditProjectModal);
     projectEditModalCancel.addEventListener("click", closeEditProjectModal);
     projectEditModal.addEventListener("click", (event) => {
@@ -408,19 +362,15 @@ const showMessage = (text, isError = false) => {
       }
     });
 
-    // Save changes
     projectEditModalSave.addEventListener("click", async () => {
       if (!currentProjectId) return;
-      
       projectEditModalSave.disabled = true;
       projectEditModalSave.textContent = "Saving...";
-      
       try {
         await request(`/api/admin/projects/${encodeURIComponent(currentProjectId)}`, {
           method: "PATCH",
           body: new FormData(projectEditForm)
         });
-        
         showMessage("Project updated successfully.");
         closeEditProjectModal();
         await loadProjects();
@@ -432,54 +382,37 @@ const showMessage = (text, isError = false) => {
       }
     });
 
-  // Login form handler
   const loginForm = byId("login-form");
   if (loginForm) {
     loginForm.addEventListener("submit", async (event) => {
-      // Prevent default form submission
       event.preventDefault();
       event.stopPropagation();
-      
-      // Get form elements
       const button = loginForm.querySelector("button[type=submit]");
       const usernameInput = byId("login-username");
       const passwordInput = byId("login-password");
-      
-      // Validate inputs
       if (!usernameInput || !passwordInput) {
         showMessage("Login form elements not found.", true);
         return;
       }
-      
       const username = usernameInput.value.trim();
       const password = passwordInput.value;
-      
-      // Basic validation
       if (!username) {
         showMessage("Please enter your username.", true);
         usernameInput.focus();
         return;
       }
-      
       if (!password) {
         showMessage("Please enter your password.", true);
         passwordInput.focus();
         return;
       }
-      
-      // Disable button and show loading state
       if (button) {
         button.disabled = true;
         button.originalText = button.textContent;
         button.textContent = "Signing in…";
       }
-      
       try {
-        // Show loading message
         showMessage("Signing in…");
-        
-        // Attempt login
-        console.log('Attempting login for user:', username);
         const result = await request("/api/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -488,10 +421,6 @@ const showMessage = (text, isError = false) => {
             password: password
           })
         });
-        
-        console.log('Login successful:', result);
-        
-        // If login successful, set up user session
         if (result.authenticated && result.username) {
           await setSignedIn(result.username);
           showMessage("Signed in successfully. Loading dashboard…");
@@ -499,18 +428,13 @@ const showMessage = (text, isError = false) => {
           throw new Error("Invalid login response from server");
         }
       } catch (error) {
-        // Handle login errors
-        console.error('Login failed:', error);
         const errorMessage = error.message || "Unknown error occurred during login";
         showMessage(`Login failed: ${errorMessage}`, true);
-        
-        // Focus on password field for retry
         if (passwordInput) {
-          passwordInput.value = ''; // Clear password for security
+          passwordInput.value = '';
           passwordInput.focus();
         }
       } finally {
-        // Re-enable button and restore original text
         if (button) {
           button.disabled = false;
           if (button.originalText) {
@@ -553,7 +477,6 @@ const showMessage = (text, isError = false) => {
     }
   });
 
-  // Check for existing session on page load
   try {
     const sessionResult = await request("/api/auth/session");
     if (sessionResult.authenticated && sessionResult.username) {
@@ -561,7 +484,6 @@ const showMessage = (text, isError = false) => {
       showMessage("Welcome back! Loading your dashboard…");
     }
   } catch (sessionError) {
-    // Silently ignore session check errors - user can still log in manually
     console.debug("Session check failed (user may not be logged in):", sessionError);
   }
 })();

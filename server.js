@@ -6,8 +6,13 @@ const path = require("node:path");
 const { DatabaseSync } = require("node:sqlite");
 const express = require("express");
 const multer = require("multer");
+const cors = require("cors");
 
 const app = express();
+app.set("trust proxy", 1);
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(express.json({ limit: "20kb" }));
+
 const port = Number(process.env.PORT || 3000);
 const siteDirectory = path.join(__dirname, "designs", "ekong-sampson-connect");
 const dataDirectory = path.resolve(process.env.PROJECT_DATA_DIR || path.join(__dirname, "data"));
@@ -69,6 +74,71 @@ database.exec(`
     status TEXT NOT NULL DEFAULT 'new',
     created_at TEXT NOT NULL
   );
+  CREATE TABLE IF NOT EXISTS news (
+    id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    category TEXT NOT NULL,
+    lga TEXT NOT NULL,
+    body TEXT NOT NULL,
+    image_path TEXT,
+    published INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT NOT NULL,
+    created_by TEXT NOT NULL
+  );
+  CREATE TABLE IF NOT EXISTS events (
+    id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    event_date TEXT NOT NULL,
+    location TEXT NOT NULL,
+    description TEXT NOT NULL,
+    image_path TEXT,
+    published INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT NOT NULL,
+    created_by TEXT NOT NULL
+  );
+  CREATE TABLE IF NOT EXISTS documents (
+    id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    category TEXT NOT NULL,
+    file_path TEXT NOT NULL,
+    file_name TEXT NOT NULL,
+    published INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT NOT NULL,
+    created_by TEXT NOT NULL
+  );
+  CREATE TABLE IF NOT EXISTS lga_communities (
+    id TEXT PRIMARY KEY,
+    lga TEXT NOT NULL,
+    community TEXT NOT NULL,
+    note TEXT NOT NULL DEFAULT '',
+    created_at TEXT NOT NULL,
+    created_by TEXT NOT NULL,
+    UNIQUE(lga, community)
+  );
+  CREATE TABLE IF NOT EXISTS categories (
+    id TEXT PRIMARY KEY,
+    kind TEXT NOT NULL,
+    label TEXT NOT NULL,
+    value TEXT NOT NULL,
+    UNIQUE(kind, value)
+  );
+  CREATE TABLE IF NOT EXISTS manifesto (
+    id TEXT PRIMARY KEY,
+    theme TEXT NOT NULL,
+    title TEXT NOT NULL,
+    problem TEXT NOT NULL,
+    proposal TEXT NOT NULL,
+    impact TEXT NOT NULL,
+    published INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT NOT NULL,
+    created_by TEXT NOT NULL
+  );
+  CREATE TABLE IF NOT EXISTS analytics (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    path TEXT NOT NULL,
+    created_at TEXT NOT NULL
+  );
+  CREATE INDEX IF NOT EXISTS analytics_path_idx ON analytics (path, created_at);
 `);
 
 app.disable("x-powered-by");
@@ -81,7 +151,6 @@ app.use((req, res, next) => {
   });
   next();
 });
-app.use(express.json({ limit: "20kb" }));
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -106,6 +175,18 @@ const issueUpload = multer({
   }
 });
 
+const documentUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024, files: 1 },
+  fileFilter(req, file, callback) {
+    if (!["application/pdf", "image/jpeg", "image/png", "image/webp"].includes(file.mimetype)) {
+      callback(new Error("Files must be a PDF, JPEG, PNG or WebP file."));
+      return;
+    }
+    callback(null, true);
+  }
+});
+
 function safeEqual(actual, expected) {
   const actualHash = crypto.createHash("sha256").update(actual).digest();
   const expectedHash = crypto.createHash("sha256").update(expected).digest();
@@ -113,8 +194,9 @@ function safeEqual(actual, expected) {
 }
 
 function requireSameOrigin(req, res, next) {
-  const expectedOrigin = `${req.protocol}://${req.get("host")}`;
-  if (req.get("origin") !== expectedOrigin) {
+  const origin = req.get("origin");
+  const allowedOrigins = [process.env.FRONTEND_URL, `${req.protocol}://${req.get("host")}`].filter(Boolean);
+  if (origin && !allowedOrigins.includes(origin)) {
     res.status(403).json({ error: "Request origin could not be verified." });
     return;
   }
@@ -129,7 +211,6 @@ function getSessionToken(req) {
 
 function requireStaff(req, res, next) {
   const token = getSessionToken(req);
-  console.log('requireStaff: token=', token, 'cookie=', req.get('cookie'));
   const session = sessions.get(token);
   if (!session || session.expiresAt <= Date.now()) {
     sessions.delete(token);
@@ -269,55 +350,38 @@ app.get("/api/admin/issues/:id/attachment", requireStaff, (req, res) => {
   });
 });
 
-// Update an issue
 app.patch("/api/admin/issues/:id", requireSameOrigin, requireStaff, (req, res) => {
   try {
     const { name, lga, community, category, message, status } = req.body;
-    
-    // Validate required fields
     if (name === undefined || name === null) throw new Error("Name is required.");
     if (lga === undefined || lga === null) throw new Error("LGA is required.");
     if (community === undefined || community === null) throw new Error("Community is required.");
     if (category === undefined || category === null) throw new Error("Category is required.");
     if (message === undefined || message === null) throw new Error("Message is required.");
     if (status === undefined || status === null) throw new Error("Status is required.");
-    
-    // Validate length constraints
     if (name.length > 120) throw new Error("Name must be 120 characters or fewer.");
     if (lga.length > 40) throw new Error("LGA must be 40 characters or fewer.");
     if (community.length > 120) throw new Error("Community must be 120 characters or fewer.");
     if (category.length > 30) throw new Error("Category must be 30 characters or fewer.");
     if (message.length > 3000) throw new Error("Message must be 3000 characters or fewer.");
-    
-    // Validate LGA
     if (!allowedLgas.has(lga)) throw new Error("Select a valid LGA.");
-    
-    // Validate category
     if (!allowedIssueCategories.has(category)) throw new Error("Select a valid issue category.");
-    
-    // Validate status
-    const allowedStatuses = new Set(["new", "in progress", "resolved"]);
-    if (!allowedStatuses.has(status)) throw new Error("Status must be 'new', 'in progress', or 'resolved'.");
-    
-    // Update the issue
+    const allowedIssueStatuses = new Set(["new", "in progress", "resolved"]);
+    if (!allowedIssueStatuses.has(status)) throw new Error("Status must be 'new', 'in progress', or 'resolved'.");
     const result = database.prepare(`
       UPDATE community_issues 
       SET name = ?, lga = ?, community = ?, category = ?, message = ?, status = ?
       WHERE id = ?
     `).run(name, lga, community, category, message, status, req.params.id);
-    
     if (result.changes === 0) {
       res.status(404).json({ error: "Issue not found." });
       return;
     }
-    
-    // Get the updated issue
     const row = database.prepare(`
       SELECT id, name, lga, community, category, message, attachment_name, status, created_at
       FROM community_issues
       WHERE id = ?
     `).get(req.params.id);
-    
     res.json({ issue: formatIssue(row) });
   } catch (error) {
     if (error instanceof Error && !error.code) {
@@ -329,17 +393,14 @@ app.patch("/api/admin/issues/:id", requireSameOrigin, requireStaff, (req, res) =
   }
 });
 
-// Delete an issue
 app.delete("/api/admin/issues/:id", requireSameOrigin, requireStaff, (req, res) => {
   try {
     const result = database.prepare("DELETE FROM community_issues WHERE id = ?")
       .run(req.params.id);
-      
     if (result.changes === 0) {
       res.status(404).json({ error: "Issue not found." });
       return;
     }
-    
     res.json({ deleted: true });
   } catch (error) {
     console.error("Could not delete issue:", error);
@@ -389,8 +450,7 @@ app.post("/api/auth/login", requireSameOrigin, (req, res) => {
   loginAttempts.delete(key);
   const token = crypto.randomBytes(32).toString("hex");
   sessions.set(token, { username, expiresAt: Date.now() + sessionDurationMs });
-  const secure = process.env.NODE_ENV === "production" ? "; Secure" : "";
-  res.set("Set-Cookie", `${cookieName}=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${Math.floor(sessionDurationMs / 1000)}${secure}`);
+  res.set("Set-Cookie", `${cookieName}=${token}; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=${Math.floor(sessionDurationMs / 1000)}`);
   res.json({ authenticated: true, username });
 });
 
@@ -407,7 +467,7 @@ app.get("/api/auth/session", (req, res) => {
 
 app.post("/api/auth/logout", requireSameOrigin, requireStaff, (req, res) => {
   sessions.delete(getSessionToken(req));
-  res.set("Set-Cookie", `${cookieName}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0${process.env.NODE_ENV === "production" ? "; Secure" : ""}`);
+  res.set("Set-Cookie", `${cookieName}=; Path=/; HttpOnly; SameSite=None; Secure; Max-Age=0`);
   res.json({ authenticated: false });
 });
 
@@ -474,12 +534,10 @@ app.get("/api/admin/projects/:id", requireSameOrigin, requireStaff, (req, res) =
   try {
     const row = database.prepare("SELECT * FROM projects WHERE id = ?")
       .get(req.params.id);
-    
     if (!row) {
       res.status(404).json({ error: "Project not found." });
       return;
     }
-    
     res.json({ project: formatProject(row) });
   } catch (error) {
     console.error("Could not fetch project:", error);
@@ -487,13 +545,9 @@ app.get("/api/admin/projects/:id", requireSameOrigin, requireStaff, (req, res) =
   }
 });
 
-// Update a project (full update)
 app.patch("/api/admin/projects/:id", requireSameOrigin, requireStaff, upload.single("image"), async (req, res) => {
   let imagePath = null;
-  let imagePathToCleanup = null;
-  
   try {
-    // Get current project to preserve existing values/image if not provided
     const currentRow = database.prepare("SELECT * FROM projects WHERE id = ?")
       .get(req.params.id);
 
@@ -514,7 +568,6 @@ app.patch("/api/admin/projects/:id", requireSameOrigin, requireStaff, upload.sin
     const evidence = body.evidence !== undefined ? String(body.evidence) : (currentRow.evidence || "");
     const published = body.published !== undefined ? body.published : Boolean(currentRow.published);
 
-    // Handle file upload if present
     if (req.file) {
       const imageType = imageTypes.get(req.file.mimetype);
       if (!imageType.signature(req.file.buffer)) {
@@ -524,7 +577,6 @@ app.patch("/api/admin/projects/:id", requireSameOrigin, requireStaff, upload.sin
       await fs.promises.writeFile(imagePath, req.file.buffer, { flag: "wx" });
     }
 
-    // Validate fields
     if (!title || title.trim() === "") throw new Error("Title is required.");
     if (!lga || !allowedLgas.has(lga)) throw new Error("Select a valid LGA.");
     if (!community || community.trim() === "") throw new Error("Community is required.");
@@ -534,10 +586,8 @@ app.patch("/api/admin/projects/:id", requireSameOrigin, requireStaff, upload.sin
     if (!status || !allowedStatuses.has(status)) throw new Error("Select a valid project status.");
     if (!description || description.trim() === "") throw new Error("Description is required.");
     
-    // Determine final image path
     const finalImagePath = imagePath || currentRow.image_path;
     
-    // Update the project
     const result = database.prepare(`
       UPDATE projects 
       SET title = ?, lga = ?, community = ?, sector = ?, year = ?, 
@@ -559,12 +609,9 @@ app.patch("/api/admin/projects/:id", requireSameOrigin, requireStaff, upload.sin
       req.params.id
     );
     
-    // Clean up old image if a new one was uploaded
     if (imagePath && currentRow.image_path && imagePath !== currentRow.image_path) {
       const oldImagePath = path.join(uploadsDirectory, path.basename(currentRow.image_path));
-      await fs.promises.unlink(oldImagePath).catch(() => {
-        // Ignore cleanup errors
-      });
+      await fs.promises.unlink(oldImagePath).catch(() => {});
     }
     
     if (result.changes === 0) {
@@ -572,19 +619,14 @@ app.patch("/api/admin/projects/:id", requireSameOrigin, requireStaff, upload.sin
       return;
     }
     
-    // Get the updated project
     const row = database.prepare("SELECT * FROM projects WHERE id = ?")
       .get(req.params.id);
     
     res.json({ project: formatProject(row) });
   } catch (error) {
-    // Clean up uploaded image if there was an error
     if (imagePath) {
-      await fs.promises.unlink(imagePath).catch(() => {
-        // Ignore cleanup errors
-      });
+      await fs.promises.unlink(imagePath).catch(() => {});
     }
-    
     if (error instanceof Error && !error.code) {
       res.status(400).json({ error: error.message });
       return;
@@ -594,35 +636,24 @@ app.patch("/api/admin/projects/:id", requireSameOrigin, requireStaff, upload.sin
   }
 });
 
-// Delete a project
 app.delete("/api/admin/projects/:id", requireSameOrigin, requireStaff, (req, res) => {
   try {
-    // Get the project first to clean up associated files
     const row = database.prepare("SELECT image_path FROM projects WHERE id = ?")
       .get(req.params.id);
-      
     if (!row) {
       res.status(404).json({ error: "Project not found." });
       return;
     }
-    
-    // Delete the project from database
     const result = database.prepare("DELETE FROM projects WHERE id = ?")
       .run(req.params.id);
-      
     if (result.changes === 0) {
       res.status(404).json({ error: "Project not found." });
       return;
     }
-    
-    // Clean up associated image file if it exists
     if (row.image_path) {
       const imagePath = path.join(uploadsDirectory, path.basename(row.image_path));
-      fs.promises.unlink(imagePath).catch(() => {
-        // Ignore cleanup errors
-      });
+      fs.promises.unlink(imagePath).catch(() => {});
     }
-    
     res.json({ deleted: true });
   } catch (error) {
     console.error("Could not delete project:", error);
@@ -655,6 +686,8 @@ app.use((error, req, res, next) => {
   res.status(500).json({ error: "An unexpected server error occurred." });
 });
 
+app.locals.database = database;
+
 if (require.main === module) {
   app.listen(port, () => {
     console.log(`Ekong Sampson Connect is available at http://localhost:${port}`);
@@ -665,4 +698,3 @@ if (require.main === module) {
 }
 
 module.exports = app;
-app.locals.database = database;
