@@ -1,6 +1,6 @@
 "use strict";
 
-const API_BASE = "https://ekong-sampson-connect-2.onrender.com";
+const API_BASE = "https://ekong-sampson-connect-3.onrender.com";
 
 (async () => {
   const byId = (id) => document.getElementById(id);
