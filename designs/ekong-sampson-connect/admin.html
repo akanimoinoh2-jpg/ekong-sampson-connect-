@@ -35,6 +35,8 @@
       </form>
     </section>
 
+    
+
     <section class="admin-workspace hidden" id="workspace" aria-labelledby="workspace-heading">
       <div class="admin-workspace-heading">
         <div><h2 id="workspace-heading">Project updates</h2><p>Signed in as <strong id="signed-in-user"></strong></p></div>
@@ -259,6 +261,26 @@
        <button class="button is-success" id="edit-issue-save">Save Changes</button>
      </footer>
    </div>
+
+   <section id="news-admin" style="margin-top:30px; border-top:2px solid #173b2d; padding-top:20px;">
+  <h2>Post News & Updates</h2>
+  <form id="news-form">
+    <label>Title<input type="text" id="news-title" required style="width:100%; padding:8px; margin:6px 0;"></label>
+    <label>Category
+      <select id="news-category" style="width:100%; padding:8px; margin:6px 0;">
+        <option value="update">Update</option>
+        <option value="press">Press release</option>
+        <option value="speech">Speech</option>
+      </select>
+    </label>
+    <label>LGA<input type="text" id="news-lga" placeholder="e.g. Eket LGA" style="width:100%; padding:8px; margin:6px 0;"></label>
+    <label>News Body<textarea id="news-body" required rows="5" style="width:100%; padding:8px; margin:6px 0;"></textarea></label>
+    <button type="submit" class="button">Publish News</button>
+  </form>
+  <div id="admin-news-list" style="margin-top:20px;"></div>
+</section>
+
+</script>
  </div>
   </body>
 </html>

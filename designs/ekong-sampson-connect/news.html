@@ -7,6 +7,94 @@
   <meta name="description" content="EKONG SAMPSON CONNECT — a civic information prototype for Akwa Ibom South. Documenting Service. Connecting Communities. Tracking Progress.">
   <title>News & Updates — EKONG SAMPSON CONNECT</title>
   <link rel="stylesheet" href="site.css">
+  <style>
+    /* --- Breaking News Styling --- */
+    .breaking-news {
+      border: 2px solid #c8102e;
+      border-radius: 12px;
+      background: #fff8f0;
+      overflow: hidden;
+      margin-top: 24px;
+    }
+    .breaking-banner {
+      background: #c8102e;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 10px 18px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .breaking-banner::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      background: #fff;
+      border-radius: 50%;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+    .breaking-body {
+      padding: 20px;
+    }
+    .breaking-body h3 {
+      color: #173b2d;
+      font-size: 1.5rem;
+      margin: 0 0 12px 0;
+      line-height: 1.3;
+    }
+    .breaking-body > p {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #333;
+      background: #fff;
+      border-left: 4px solid #c8102e;
+      padding: 12px 14px;
+      border-radius: 6px;
+    }
+    .breaking-lead-img {
+      width: 100%;
+      border-radius: 10px;
+      margin: 16px 0;
+      object-fit: cover;
+      max-height: 420px;
+    }
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .media-grid img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+    .video-wrap {
+      margin-top: 16px;
+      background: #173b2d;
+      padding: 12px;
+      border-radius: 10px;
+    }
+    .video-wrap video {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+      background: #000;
+    }
+    .news-evidence.breaking-evidence span {
+      background: #c8102e;
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -14,7 +102,7 @@
   <header class="masthead"><div class="wrap nav-row">
     <a class="brand" href="home.html" aria-label="Ekong Sampson Connect home"><span class="brand-mark" aria-hidden="true">ES</span><span><span class="brand-name">EKONG SAMPSON CONNECT</span><span class="brand-note">People. Projects. Progress.</span></span></a>
       <nav class="nav-links" id="primary-nav" aria-label="Main navigation"><a href="home.html">Home</a><a href="about.html">About</a><a href="tracker.html">Projects</a><a href="factsheet.html">Fact Sheet</a><a href="your lgas.html">Know Your LGA</a><a href="news.html">News</a><a href="media.html">Media</a><a href="events.html">Events</a></nav>
-     <div class="nav-actions"><button class="search-open" id="search-open" type="button" aria-expanded="false" aria-controls="site-search">⌕ <span>Search</span></button><a class="button small" href("community-issue.html">Share an issue <span aria-hidden="true">↗</span></a><button class="mobile-toggle" id="mobile-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button></div>
+     <div class="nav-actions"><button class="search-open" id="search-open" type="button" aria-expanded="false" aria-controls="site-search">⌕ <span>Search</span></button><a class="button small" href="community-issue.html">Share an issue <span aria-hidden="true">↗</span></a><button class="mobile-toggle" id="mobile-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button></div>
    </div><div class="global-search" id="site-search"><div class="wrap"><input id="site-search-input" type="search" placeholder="Search projects, policies, speeches, communities…" aria-label="Search this website prototype"><button class="button small" id="search-submit" type="button">Search</button></div><p class="wrap search-feedback" id="search-feedback" aria-live="polite">Search the content on this page only. There is no connected archive.</p></div></header>
    <main id="main">
     <section class="section" id="news">
@@ -32,23 +120,57 @@
             <option value="update">Update</option>
           </select>
         </div>
-        <p class="filter-feedback" id="news-feedback" aria-live="polite">1 verified news item published.</p>
+        <p class="filter-feedback" id="news-feedback" aria-live="polite">2 verified news items published.</p>
         <div class="news-list">
+
+          <!-- EsXISTING ARTICLE -->
           <article class="news-article" data-category="update">
             <figure class="news-image"><img src="assets/water.jpg" alt="Solar-powered water project commissioned at Ikot Essen Akpan Ntuen, Mkpat Enin LGA — water tower with multiple taps serving the community"></figure>
             <div class="news-body">
               <span class="news-meta">Update · Mkpat Enin LGA · Ikpa Ikono Clan</span>
               <h3>Ikot Essen Akpan Ntuen Commends Senator Ekong Sampson over Ibekwe–Ikot Unya–Ekpuk Road, Solar-Powered Water Project</h3>
               <p>Residents of Ikot Essen Akpan Ntuen community in Ikpa Ikono Clan, Mkpat Enin Local Government Area of Akwa Ibom State have lauded the Senator representing Akwa Ibom South, Ekong Sampson, for his impactful interventions in the area, particularly the ongoing Ibekwe–Ikot Unya–Ekpuk Road project and a newly commissioned solar-powered water scheme.</p>
-              <div class="news-evidence"><span>Source: Community report</span><span>LGA: Mkpat Enin</span><span>Status: Verified</span></div>
+              <div class="news-evidence"><span>source:senator</span><span>LGA: Mkpat Enin</span><span>Status: Verified</span></div>
             </div>
           </article>
+
+          <!-- NEW BREAKING ARTICLE -->
+          <article class="breaking-news" data-category="update">
+            <div class="breaking-banner">Breaking News</div>
+            <div class="breaking-body">
+              <h3>Senator Ekong Sampson Unity Cup Ends in Grand Style, Eket Beats Mbo 3:1</h3>
+              <p>
+                BREAKING: Senator Ekong Sampson Unity Cup Ends in Grand Style, Eket Beats Mbo 3:1<br><br>
+                …Ex International, Friday Ekpo, Fans Commend Senator Sampson for Sports promotion <br><br>
+                … as school sports set to receive big boost courtesy Senator Sampson
+              </p>
+
+              <img class="breaking-lead-img" src="assets/ekong%20ball.jpeg" alt="Senator Ekong Sampson Unity Cup - match ball">
+
+              <div class="media-grid">
+                <img src="assets/ekong%20sport%20speech.jpeg" alt="Senator Ekong Sampson delivering sports speech at Unity Cup final">
+                <img src="assets/cup.jpeg" alt="Unity Cup trophy on display">
+                <img src="assets/field%20move.jpeg" alt="Action from the Unity Cup final field">
+                <img src="assets/sportshake.jpeg" alt="Sportsmanship handshake at Unity Cup">
+                <img src="assets/stage.jpeg" alt="Presentation stage at Unity Cup closing ceremony">
+              </div>
+
+              <div class="video-wrap">
+                <video controls preload="metadata">
+                  <source src="assets/video.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+
+              <div class="news-evidence breaking-evidence" style="margin-top:16px;"><span>LGA: Eket</span><span>Category: Sports</span><span>Status: Verified</span></div>
+            </div>
+          </article>
+
         </div>
       </div>
     </section>
   </main>
   <footer class="footer"><div class="wrap"><div><span class="brand-name">EKONG SAMPSON CONNECT</span><p>Documenting Service. Connecting Communities. Tracking Progress.</p></div><div class="footer-meta"><a href="admin.html">Project team sign-in</a><br>Public service prototype</div></div></footer>
-  <p>EKONG SAMPSON CONNECT</p>
   <script src="site.js"></script>
 </body>
 </html>
