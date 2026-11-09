@@ -121,11 +121,11 @@
   const filterProjects = () => {
     if (!projectCards.length || !projectFeedback) return;
     const values = projectFilters.map((input) => input.value);
-    const [lga, community, sector, year, status] = values;
+    const [lga, community, sector = "all", year = "all", status = "all"] = values;
     const selectedLgaName = projectLgaFilter?.options[projectLgaFilter.selectedIndex]?.text;
     let visible = 0;
     projectCards.forEach((card) => {
-      const show = (lga === "all" || card.dataset.lga === lga)
+      const show = (lga === "all" || card.dataset.lga === lga || card.dataset.lga === "all")
         && (!community || (card.dataset.community || "").toLocaleLowerCase().includes(community.toLocaleLowerCase()))
         && (sector === "all" || card.dataset.sector === sector)
         && (year === "all" || card.dataset.year === year)
@@ -293,7 +293,7 @@
   const describeSelectedLga = (lgaValue, name) => {
     if (!lgaFeedback) return;
     const matchingProjects = projectCards.filter((card) => (
-      card.dataset.lga === lgaValue && !card.classList.contains("hidden")
+      (card.dataset.lga === lgaValue || card.dataset.lga === "all") && !card.classList.contains("hidden")
     )).length;
     lgaFeedback.textContent = matchingProjects
       ? `${name}: ${matchingProjects} project ${matchingProjects === 1 ? "detail is" : "details are"} listed in the Project Tracker. Entries require verification.`

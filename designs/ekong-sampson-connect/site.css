@@ -112,7 +112,15 @@ h1 span { color: #d6b978; font-style: italic; }
 .project-evidence { display: flex; flex-wrap: wrap; gap: .45rem 1rem; margin-top: .7rem; color: var(--muted); font-size: .69rem; }
 .status { white-space: nowrap; }
 .tracker-map { min-height: 340px; }
-.tracker-map img { max-height: 300px; }
+.tracker-map svg { background: transparent; }
+.locator-marker circle { fill: rgba(23,59,45,.12); stroke: var(--forest); stroke-width: 1.5; transition: fill .2s; }
+.locator-marker text { font: 700 8.5px var(--sans); fill: var(--forest); text-anchor: middle; dominant-baseline: middle; pointer-events: none; }
+.locator-marker .marker-sub { font-size: 6.5px; font-weight: 400; fill: var(--muted); }
+.locator-marker { cursor: pointer; }
+.locator-marker:hover circle, .locator-marker:focus-visible circle { fill: rgba(23,59,45,.28); }
+.locator-marker.is-selected circle { fill: var(--forest); }
+.locator-marker.is-selected text { fill: #fffdf7; }
+.locator-marker.is-selected .marker-sub { fill: #d6b978; }
 .lga-layout { align-items: start; }
 .lga-list { margin: 1.25rem 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
 .lga-button { width: 100%; min-height: 63px; display: flex; justify-content: space-between; align-items: center; gap: .5rem; color: var(--ink); }

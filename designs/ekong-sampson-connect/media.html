@@ -7,14 +7,21 @@
   <meta name="description" content="EKONG SAMPSON CONNECT — a civic information prototype for Akwa Ibom South. Documenting Service. Connecting Communities. Tracking Progress.">
   <title>Media Centre — EKONG SAMPSON CONNECT</title>
   <link rel="stylesheet" href="site.css">
+  <style>
+    .breaking-lead-img { width: 100%; border-radius: 10px; margin: 16px 0; object-fit: cover; max-height: 420px; }
+    .news-body .media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin: 16px 0; }
+    .news-body .media-grid img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; }
+    .video-wrap { margin-top: 16px; background: #173b2d; padding: 12px; border-radius: 10px; }
+    .video-wrap video { width: 100%; border-radius: 8px; display: block; background: #000; }
+  </style>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="utility"><div class="wrap"><span>PUBLIC SERVICE · <strong>AKWA IBOM SOUTH</strong></span><a href="contact.html">Constituency contact <span aria-hidden="true">↗</span></a></div></div>
   <header class="masthead"><div class="wrap nav-row">
     <a class="brand" href="home.html" aria-label="Ekong Sampson Connect home"><span class="brand-mark" aria-hidden="true">ES</span><span><span class="brand-name">EKONG SAMPSON CONNECT</span><span class="brand-note">People. Projects. Progress.</span></span></a>
-      <nav class="nav-links" id="primary-nav" aria-label="Main navigation"><a href="home.html">Home</a><a href="about.html">About</a><a href="tracker.html">Projects</a><a href="factsheet.html">Fact Sheet</a><a href="your lgas.html">Your LGA</a><a href="news.html">News</a><a href="media.html">Media</a><a href="events.html">Events</a></nav>
-     <div class="nav-actions"><button class="search-open" id="search-open" type="button" aria-expanded="false" aria-controls="site-search">⌕ <span>Search</span></button><a class="button small" href("community-issue.html">Share an issue <span aria-hidden="true">↗</span></a><button class="mobile-toggle" id="mobile-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button></div>
+      <nav class="nav-links" id="primary-nav" aria-label="Main navigation"><a href="home.html">Home</a><a href="about.html">About</a><a href="tracker.html">Projects</a><a href="factsheet.html">Fact Sheet</a><a href="media.html">Media</a><a href="news.html">News</a></nav>
+      <div class="nav-actions"><button class="search-open" id="search-open" type="button" aria-expanded="false" aria-controls="site-search">⌕ <span>Search</span></button><a class="button small" href="community-issue.html">Share an issue <span aria-hidden="true">↗</span></a><button class="mobile-toggle" id="mobile-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button></div>
    </div><div class="global-search" id="site-search"><div class="wrap"><input id="site-search-input" type="search" placeholder="Search projects, policies, speeches, communities…" aria-label="Search this website prototype"><button class="button small" id="search-submit" type="button">Search</button></div><p class="wrap search-feedback" id="search-feedback" aria-live="polite">Search the content on this page only. There is no connected archive.</p></div></header>
    <main id="main">
     <section class="section" id="media">
@@ -43,11 +50,71 @@
             <p>Awaiting official briefing notes and PDFs.</p>
           </div>
         </div>
+        <h3 style="font:1.6rem var(--serif); color:var(--forest); margin:2.4rem 0 0;">News & Updates</h3>
+        <p style="color:var(--muted); font-size:.9rem; margin:.3rem 0 0;">The latest verified reports and community updates.</p>
+        <div class="field-control" style="max-width:320px; margin-top:1rem;">
+          <label for="news-category">News category</label>
+          <select id="news-category">
+            <option value="all">All categories</option>
+            <option value="press">Press release</option>
+            <option value="speech">Speech</option>
+            <option value="update">Update</option>
+          </select>
+        </div>
+        <p class="filter-feedback" id="news-feedback" aria-live="polite">2 verified news items published.</p>
+        <div class="news-list" id="news-list">
+
+          <article class="news-article" data-category="update">
+            <figure class="news-image"><img src="./assets/ekong ball.jpeg" alt="Senator Ekong Sampson Unity Cup — match ball"></figure>
+            <div class="news-body">
+              <span class="news-meta">Update · Sport</span>
+              <h3>Senator Ekong Sampson Unity Cup Ends in Grand Style, Eket Beats Mbo 3:1</h3>
+              <p>
+                Senator Ekong Sampson Unity Cup Ends in Grand Style, Eket Beats Mbo 3:1<br><br>
+                …Ex International, Friday Ekpo, Fans Commend Senator Sampson for Sports promotion <br><br>
+                … as school sports set to receive big boost courtesy Senator Sampson
+              </p>
+              <div class="news-evidence"><span>Source: Senator</span><span>LGA: Eket</span><span>Status: Verified</span></div>
+            </div>
+          </article>
+
+          <article class="news-article" data-category="update">
+            <figure class="news-image"><img src="./assets/ekong ball.jpeg" alt="Senator Ekong Sampson Unity Cup — match ball"></figure>
+            <div class="news-body">
+              <span class="news-meta">Update · Sport</span>
+              <h3>Senator Ekong Sampson Unity Cup Ends in Grand Style, Eket Beats Mbo 3:1</h3>
+              <p>
+                Senator Ekong Sampson Unity Cup Ends in Grand Style, Eket Beats Mbo 3:1<br><br>
+                …Ex International, Friday Ekpo, Fans Commend Senator Sampson for Sports promotion <br><br>
+                … as school sports set to receive big boost courtesy Senator Sampson
+              </p>
+
+              <img class="breaking-lead-img" src="./assets/ekong ball.jpeg" alt="Senator Ekong Sampson Unity Cup — match ball">
+
+              <div class="media-grid">
+                <img src="./assets/ekongsportspeech.jpeg" alt="Senator Ekong Sampson delivering sports speech at Unity Cup final">
+                <img src="./assets/cup.jpeg" alt="Unity Cup trophy on display">
+                <img src="./assets/field move.jpeg" alt="Action from the Unity Cup final field">
+                <img src="./assets/sportshake.jpeg" alt="Sportsmanship handshake at Unity Cup">
+                <img src="./assets/stage.jpeg" alt="Presentation stage at Unity Cup closing ceremony">
+              </div>
+
+              <div class="video-wrap">
+                <video controls preload="metadata">
+                  <source src="./assets/video.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+
+              <div class="news-evidence" style="margin-top:16px;"><span>LGA: Eket</span><span>Category: Sports</span><span>Status: Verified</span></div>
+            </div>
+          </article>
+
+        </div>
       </div>
     </section>
   </main>
   <footer class="footer"><div class="wrap"><div><span class="brand-name">EKONG SAMPSON CONNECT</span><p>Documenting Service. Connecting Communities. Tracking Progress.</p></div><div class="footer-meta"><a href="admin.html">Project team sign-in</a><br>Public service prototype</div></div></footer>
-  <p>EKONG SAMPSON CONNECT</p>
   <script src="site.js"></script>
 </body>
 </html>
